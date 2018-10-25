@@ -1,0 +1,15 @@
+<h1 class="title is-2">Registrazione utenti</h1>
+<style>
+  form {
+        width: 500px;
+      }
+</style>
+
+<%= form_for(@utente, url: registrazione_path) do |f| %>
+  <div class="control">
+    <%= f.label "Cognome", class: 'label' %>
+    <%= f.text_field :cognome, class: 'input' %>
+  </div>
+  <br />
+  <%= f.submit 'Registra', class: 'button is-primary' %>
+<% end %>

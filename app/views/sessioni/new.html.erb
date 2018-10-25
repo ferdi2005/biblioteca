@@ -1,0 +1,18 @@
+<h1 class="title is-2">Login</h1>
+<%= form_for(:utente, url: login_path) do |f| %>
+  <div class="control">
+    <%= f.label "Cognome", class: 'label' %>
+    <%= f.text_field :cognome, class: 'input' %>
+  </div>
+  <div class="control" id="password-zone">
+  </div>
+  <br />
+  <%= f.submit 'Accedi', class: 'button is-primary' %>
+<% end %>
+<br />
+<button class="button is-small is-info" id="bottoneamministratore">Utente amministratore? Clicca qui.</button>
+<script>
+var passwordfield;
+passwordfield = '<label class="label" for="utente_Password">Password</label> <input class="input" type="text" name="utente[password]" id="utente_password">'
+  $( '#bottoneamministratore' ).click(function(){ $('#password-zone').append(passwordfield); $('#bottoneamministratore').addClass('is-hidden'); });
+</script>

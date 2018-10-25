@@ -1,0 +1,21 @@
+<h1 class="title is-2"><%= @libro.titolo %></h1>
+<h2 class="subtitle is-3"><b>Autore: </b><%= @libro.autore %></h2>
+<h2 class="subtitle is-4">Proprietario: <%= @libro.utente.cognome %></h2>
+<h1 class="title is-3">Storico prestiti</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Richiedente</th>
+      <th>Pagina prestito</th>
+      <!-- #TODO: AGGIUNGERE ALTRO! -->
+    </tr>
+  </thead>
+  <tbody>
+    <% @libro.prestito.each do |prestito| %>
+    <tr>
+      <th><%= prestito.richiedente %></th>
+      <th><%= link_to 'Scheda prestito', prestito, class: 'button is-info' %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

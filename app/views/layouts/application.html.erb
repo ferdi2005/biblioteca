@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Biblioteca</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <!-- NAVBAR start -->
+  <script>
+  $(document).ready(function() {
+      // Check for click events on the navbar burger icon
+      $(".navbar-burger").click(function() {
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          $(".navbar-burger").toggleClass("is-active");
+          $(".navbar-menu").toggleClass("is-active");
+
+      });
+    });
+  </script>
+  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <%= link_to 'Libri', root_path, class: 'navbar-item' %>
+    <% if loggato? %>
+    <%= link_to 'Logout', logout_path, class: 'navbar-item', method: :delete %>
+    <% end %>
+
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+    </div>
+
+  </nav>
+  <!-- NAVBAR end -->
+  <body>
+    <div class="section">
+      <% flash.each do |tipo_messaggio, messaggio| %>
+          <div class="notification is-<%= tipo_messaggio %>"><%= messaggio %></div>
+        <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

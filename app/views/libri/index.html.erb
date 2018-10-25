@@ -1,0 +1,21 @@
+<h1 class="title is-2">Richiedi un prestito</h1>
+<%= link_to 'Aggiungi nuovo libro', new_libro_path, class: 'button is-info' %>
+<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th>Titolo</th>
+      <th>Autore</th>
+      <th>Richiedi</th>
+    </th>
+  </thead>
+  <tbody>
+    <% @libro.each do |libro| %>
+      <tr>
+        <td><%= libro.titolo %></td>
+        <td><%= libro.autore %></td>
+        <td><%= link_to 'Richiedi in prestito', richiedi_path(:id => libro.id), class: 'button is-primary is-medium' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
