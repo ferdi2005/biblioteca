@@ -6,7 +6,7 @@ class LibriController < ApplicationController
 
   def create
     if utente_corrente.admin?
-      utente = Utente.find_by_cognome(params[:cognome_utente].downcase)
+      utente = Utente.find_by_cognome(params[:utente].downcase)
       @libro = Libro.new(titolo: params[:libro][:titolo], autore: params[:libro][:autore], utente: utente)
     else
       @libro = Libro.new(titolo: params[:libro][:titolo], autore: params[:libro][:autore], utente: utente_corrente)
