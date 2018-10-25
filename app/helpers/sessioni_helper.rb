@@ -1,6 +1,6 @@
 module SessioniHelper
   def utente_corrente
-      utente_corrente = Utente.find_by(session[:id])
+      utente_corrente = Utente.find_by(id:session[:id])
   end
 
   def loggato?
