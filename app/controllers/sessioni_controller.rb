@@ -12,12 +12,15 @@ class SessioniController < ApplicationController
     if @utente.admin?
       if @utente.authenticate(params[:utente][:password])
         session[:id] = @utente.id
+        flash[:success] = "Benvenuto nell'applicazione della biblioteca di classe. Login effettuato con successo. ADMIN"
       else
         redirect_to login_path
         flash[:danger] = "Password errata. Contattare l'amministratore di sistema"
       end
     else
       session[:id] = @utente.id
+      redirect_to root_path
+      flash[:success] = "Benvenuto nell'applicazione della biblioteca di classe. Login effettuato con successo"
     end
   else
     redirect_to login_path
@@ -26,11 +29,8 @@ class SessioniController < ApplicationController
   end
 
   def logout
-    if loggato?
-      session.delete(:id)
-      @utente_corrente = nil
-      utente_corrente = nil
-      redirect_to login_path
-    end
+    session.delete(:id)
+    utente_corrente = nil
+    redirect_to root_path
   end
 end
