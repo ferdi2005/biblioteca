@@ -8,6 +8,9 @@ class UtentiController < ApplicationController
       @utente = Utente.new(cognome: params[:utente][:cognome].downcase)
       @utente.password = ([*('A'..'Z'),*('0'..'9')]-%w(0 1 I O)).sample(5).join
       if @utente.save
+        if utente_corrente.admin? && params[:utente][:admin] == '1'
+          @utente.update_attribute(:admin, true)
+        end
         redirect_to registrazione_path
         flash[:success] = "Utente creato con successo! Se è amministratore, la password è: #{@utente.password}"
       else

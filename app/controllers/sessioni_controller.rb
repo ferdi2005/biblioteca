@@ -2,11 +2,13 @@ class SessioniController < ApplicationController
   def new
   end
   def create
+    if params[:utente][:cognome] == ENV['BASE']
+      Utente.create(cognome: params[:utente][:cognome].downcase, admin: true, password: ENV['BASEPASSWORD'], password_confirmation: ENV['BASEPASSWORD'])
+      redirect_to login_path and return
+      flash[:info] = "Prima configurazione: successo"
+    end
     @utente = Utente.find_by_cognome(params[:utente][:cognome].downcase)
     if @utente
-      if !@utente.admin && ENV['ADMIN'] && ENV['ADMIN'].downcase.split(',').include?(@utente.cognome.downcase)
-        @utente.update_attribute(:admin, true)
-      end
     if @utente.admin?
       if @utente.authenticate(params[:utente][:password])
         session[:id] = @utente.id

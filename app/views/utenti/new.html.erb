@@ -11,5 +11,9 @@
     <%= f.text_field :cognome, class: 'input' %>
   </div>
   <br />
+  <label class="label" for="admin">Admin</admin>
+  <%= f.check_box :admin %>
+  <br />
+  <br />
   <%= f.submit 'Registra', class: 'button is-primary' %>
 <% end %>
