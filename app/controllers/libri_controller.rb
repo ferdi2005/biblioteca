@@ -37,7 +37,6 @@ class LibriController < ApplicationController
     else
       @libro = Libro.where(stato: 1)
     end
-    flash[:info] = "DEBUG #{@libro}"
   end
 
   def show
