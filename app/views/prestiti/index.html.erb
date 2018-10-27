@@ -1,2 +1,39 @@
-<h1>Prestiti#index</h1>
-<p>Find me in app/views/prestiti/index.html.erb</p>
+<h1 class="title is-1">Prestiti richiesti</h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Scadenza</th>
+    <th>Stato</th>
+  </thead>
+  <tbody>
+    <% @prestiti.each do |prestito| %>
+    <tr>
+      <td><%= prestito.libro.titolo %></td>
+      <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
+      <td><%= prestito.stato %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if utente_corrente.admin? %>
+<% @utenti.each do |utente| %>
+  <h1 class="subtitle is-2">Richiesti da <%= utente.cognome %></h1>
+  <table class="table">
+    <thead>
+      <th>Titolo del libro</th>
+      <th>Scadenza</th>
+      <th>Stato</th>
+    </thead>
+    <tbody>
+      <% utente.prestito.each do |prestito| %>
+      <tr>
+        <td><%= prestito.libro.titolo %></td>
+        <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
+        <td><%= prestito.stato %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<% end %>

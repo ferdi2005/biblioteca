@@ -10,10 +10,10 @@ class PrestitiController < ApplicationController
       redirect_to libri_path
       flash[:danger] = "Ehi tu! Ma questo è il tuo libro! Non puoi richiedere un prestito per il tuo libro stesso, ce l'hai già a casa!"
       else
-      @prestito = Prestito.new(utente: utente_corrente, libro: @libro)
+      @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0)
       if @prestito.save
         redirect_to @prestito
-        flash[:success] = "Prestito creato con successo."
+        flash[:success] = "Prestito richiesto con successo."
       else
         redirect_to @prestito
         flash[:danger] = "Errore! #{@prestito.errors.each {|errore| puts errore}}"
@@ -29,6 +29,10 @@ class PrestitiController < ApplicationController
   end
 
   def index
+    if utente_corrente.admin?
+      @utenti = Utente.all
+    end
+    @prestiti = utente_corrente.prestiti
   end
 
   def show

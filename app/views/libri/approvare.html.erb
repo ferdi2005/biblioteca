@@ -1,0 +1,21 @@
+<h1 class="title is-1">Prestiti da approvare</h1>
+<% if @libri.nil? %>
+<h1 class="title is-1" style="text-align:center;">Nessun prestito da approvare</h1>
+<% else %>
+<table class="table">
+  <thead>
+    <th>Titolo</th>
+    <th>Trama</th>
+    <th>Approva</th>
+  </thead>
+  <tbody>
+    <% @libri.each do |libro| %>
+      <tr>
+        <td><%= link_to libro.titolo, libro %></td>
+        <td><%= libro.trama %></td>
+        <td><%= link_to 'Appova', approva_path(:id => libro.id), class: 'button is-primary is-small', confirm: 'Questo libro verrà reso immediatamente disponibile per il prestito.'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

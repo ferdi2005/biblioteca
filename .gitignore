@@ -33,3 +33,6 @@
 # DS store
 .DS_Store
 */.DS_Store
+
+# Ignore application configuration
+/config/application.yml

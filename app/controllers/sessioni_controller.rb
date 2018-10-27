@@ -2,20 +2,22 @@ class SessioniController < ApplicationController
   def new
   end
   def create
-    if params[:utente][:cognome] == ENV['BASE']
-      Utente.create(cognome: params[:utente][:cognome].downcase, admin: true, password: ENV['BASEPASSWORD'], password_confirmation: ENV['BASEPASSWORD'])
+    if params[:utente][:cognome] == ENV['BASE'] && !Utente.find_by(cognome: ENV['BASE'].downcase)
+      @utente = Utente.create(cognome: ENV['BASE'].downcase, admin: true, password: ENV['BASEPASSWORD'], password_confirmation: ENV['BASEPASSWORD'])
       redirect_to login_path and return
-      flash[:info] = "Prima configurazione: successo"
+      flash[:success] = 'Utente principale creato con successo. Da ora in poi potrai accedere con le credenziali impostate.'
     end
+
     @utente = Utente.find_by_cognome(params[:utente][:cognome].downcase)
     if @utente
     if @utente.admin?
       if @utente.authenticate(params[:utente][:password])
         session[:id] = @utente.id
+        redirect_to root_path
         flash[:success] = "Benvenuto nell'applicazione della biblioteca di classe. Login effettuato con successo. ADMIN"
       else
         redirect_to login_path
-        flash[:danger] = "Password errata. Contattare l'amministratore di sistema"
+        flash[:danger] = "Password errata. Contattare l'amministratore di sistema se dimenticata."
       end
     else
       session[:id] = @utente.id
