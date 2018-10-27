@@ -1,16 +1,60 @@
-<h1 class="title is-1">Prestiti richiesti</h1>
+<% if utente_corrente.admin? %>
+<% @utenti.each do |utente| %>
+<% @daconsegnare_all = Prestito.where(stato: 0, utente: utente)%>
+<h1 class="subtitle is-6">Prestiti di <%= utente.cognome %> </h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Proprietario</th>
+    <th>Consegna</th>
+  </thead>
+  <tbody>
+    <% @daconsegnare_all.each do |prestito| %>
+      <tr>
+        <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+        <td><%= prestito.libro.proprietario %></td>
+        <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<% else %>
+<h1 class="title is-1">Prestiti da consegnare</h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Proprietario</th>
+    <th>Consegna</th>
+  </thead>
+  <tbody>
+    <% @daconsegnare_pers.each do |prestito| %>
+      <tr>
+        <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+        <td><%= prestito.libro.proprietario %></td>
+        <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+
+<h1 class="title is-1">Storico generale prestiti </h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
     <th>Scadenza</th>
     <th>Stato</th>
+    <th>Pagina</th>
   </thead>
   <tbody>
     <% @prestiti.each do |prestito| %>
     <tr>
       <td><%= prestito.libro.titolo %></td>
       <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
-      <td><%= prestito.stato %></td>
+      <td><%= prestito.stato %> </td>
+      <td><%= link_to 'Pagina prestito', prestito, class: 'button is-info is-small' %></td>
     </tr>
     <% end %>
   </tbody>
@@ -18,19 +62,21 @@
 
 <% if utente_corrente.admin? %>
 <% @utenti.each do |utente| %>
-  <h1 class="subtitle is-2">Richiesti da <%= utente.cognome %></h1>
+  <h1 class="subtitle is-4">Richiesti da <%= utente.cognome %></h1>
   <table class="table">
     <thead>
       <th>Titolo del libro</th>
       <th>Scadenza</th>
       <th>Stato</th>
+      <th>Pagina</th>
     </thead>
     <tbody>
       <% utente.prestito.each do |prestito| %>
       <tr>
         <td><%= prestito.libro.titolo %></td>
         <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
-        <td><%= prestito.stato %></td>
+        <td><%= prestito.stato %> </td>
+        <td><%= link_to 'Pagina prestito', prestito, class: 'button is-info is-small' %></td>
       </tr>
       <% end %>
     </tbody>

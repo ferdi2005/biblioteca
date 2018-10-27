@@ -13,7 +13,7 @@
       <tr>
         <td><%= link_to libro.titolo, libro %></td>
         <td><%= libro.trama %></td>
-        <td><%= link_to 'Appova', approva_path(:id => libro.id), class: 'button is-primary is-small', confirm: 'Questo libro verrà reso immediatamente disponibile per il prestito.'%></td>
+        <td><%= link_to 'Appova', approva_path(:id => libro.id), class: 'button is-primary is-small', data: {confirm: 'Questo libro verrà reso immediatamente disponibile per il prestito.'}%></td>
       </tr>
     <% end %>
   </tbody>
