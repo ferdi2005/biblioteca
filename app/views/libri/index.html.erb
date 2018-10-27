@@ -1,6 +1,61 @@
-<h1 class="title is-2">Richiedi un prestito</h1>
-<%= link_to 'Aggiungi nuovo libro', new_libro_path, class: 'button is-info' %>
+<h1 class="title is-2">Elenco dei libri</h1>
+<%= link_to 'Aggiungi nuovo libro', new_libro_path, class: 'button is-primary' %>
 <br />
+<br />
+<div class="is-horizontal">
+
+<form action="/" method="get">
+<div class="field has-addons">
+  <div class="control">
+     <input class="input" placeholder="Titolo o autore" name="cerca" />
+  </div>
+  <div class="control">
+    <input type="submit" class="button is-info" label="Cerca"/>
+  </div>
+</div>
+
+
+<b>Filtri per la ricerca</b>
+<div class="level level-left">
+<label for="select-generi" class="label">Genere</label>
+<br />
+<br />
+<div class="select" id="select-generi">
+<select name="genere">
+  <option></option>
+  <option>Storico</option>
+  <option>fantascienza</option>
+  <option>fantasy</option>
+  <option>avventura</option>
+  <option>horror</option>
+  <option>azione</option>
+  <option>thriller</option>
+  <option>giallo</option>
+  <option>rosa</option>
+  <option>umoristico</option>
+  <option>fiaba</option>
+  <option>biografia</option>
+  <option>diario</option>
+  <option>divulgativo-argomentativo</option>
+  <option>poesia</option>
+</select>
+</div>
+<br />
+<label for="select-pagine" class="label">Pagine</label>
+<br />
+<div class="select" id="select-pagine">
+<select name="pagine">
+  <option></option>
+  <option>0-100</option>
+  <option>100-200</option>
+  <option>200-300</option>
+  <option>300+</option>
+</select>
+</div>
+</div>
+</form>
+<!-- FINE FORM DI RICERCA © F.T.  -->
+
 <table class="table">
   <thead>
     <tr>

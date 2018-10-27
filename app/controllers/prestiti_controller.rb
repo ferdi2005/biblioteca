@@ -25,23 +25,38 @@ class PrestitiController < ApplicationController
         redirect_to @prestito
         flash[:danger] = "Errore! #{@prestito.errors.each {|errore| puts errore}}"
       end
+    end
   end
-end
 
 
   def consegna
     prestito = Prestito.find(params[:id])
     prestito.update_attributes(stato: 1, consegna: DateTime.now)
+    redirect_to prestito
+    flash[:success] = "La consegna del libro è stata registrata con successo."
+  end
+
+  def restituisci
+    @prestito = Prestito.find(params[:id])
+    session[:id_prestito] = params[:id]
   end
 
   def restituzione
-
+    @prestito = Prestito.find(session[:id_prestito])
+    @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note])
+    voto = @prestito.libro.voto
+    voto += params[:prestito][:ranking]
+    voto /= 2
+    @prestito.libro.update_attributes(voto: voto)
+    redirect_to @prestito
+    flash[:success] = "Restituzione del libro effettuata con successo"
   end
 
   def index
     if utente_corrente.admin?
       @utenti = Utente.all
     end
+    @prestitiscaduti_usr = Prestito.where(stato: 1, utente: utente_corrente)
     @daconsegnare_pers = []
     utente_corrente.libri.each do |libro|
       a = Prestito.where(stato: 0, libro: libro)

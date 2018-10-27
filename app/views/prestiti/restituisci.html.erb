@@ -1,0 +1,29 @@
+<h1 class="title is-1">Scheda di restituzione per il prestito <%= @prestito.id %> del libro <%= @prestito.libro.titolo %></h1>
+<% form_for(@prestito, url: restituisci_path, method: :post, :html => { :class => 'rating' } ) do |f| %>
+
+  <div class="control">
+    <%= f.label :recensione, class: 'label' %>
+    <%= f.text_area :recensione, class: 'textarea' %>
+  </div>
+
+  <label class="label" for="libro-valutazione">Valuta il libro</label>
+  <fieldset class="starability-basic" id="libro-valutazione">
+  <input type="radio" id="first-rate1" name="prestito[ranking]" value="1" />
+  <label for="first-rate1" title="Terribile">1 stella</label>
+  <input type="radio" id="first-rate2" name="prestito[ranking]" value="2" />
+  <label for="first-rate2" title="Per niente buono">2 stelle</label>
+  <input type="radio" id="first-rate3" name="prestito[ranking]" value="3" />
+  <label for="first-rate3" title="Nella media">3 stelle</label>
+  <input type="radio" id="first-rate4" name="prestito[ranking]" value="4" />
+  <label for="first-rate4" title="Molto buono">4 stelle</label>
+  <input type="radio" id="first-rate5" name="prestito[ranking]" value="5" />
+  <label for="first-rate5" title="Buonissimo">5 stelle</label>
+  </fieldset>
+
+  <div class="control">
+    <%= f.label 'Note sullo stato del libro', class: 'label' %>
+    <%= f.text_area :note, class: 'textarea' %>
+  </div>
+
+<%= f.submit 'Invia e chiudi', class: 'button is-danger' %>
+<% end %>

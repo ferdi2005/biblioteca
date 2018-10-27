@@ -9,6 +9,7 @@
     <%= stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <!-- NAVBAR start -->
@@ -26,10 +27,13 @@
   </script>
   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <%= link_to 'Libri', root_path, class: 'navbar-item' %>
+    <%= link_to 'Prestiti', prestiti_path, class: 'navbar-item' %>
     <% if loggato? %>
     <%= link_to 'Logout', logout_path, class: 'navbar-item', method: :delete %>
     <% end %>
-
+    <% if utente_corrente.admin? %>
+      <%= link_to 'Prestiti', prestiti_path, class: 'navbar-item' %>
+    <% end %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
