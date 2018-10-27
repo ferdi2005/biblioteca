@@ -1,7 +1,7 @@
 <% if utente_corrente.admin? %>
 <% @utenti.each do |utente| %>
 <% @daconsegnare_all = Prestito.where(stato: 0, utente: utente)%>
-<h1 class="subtitle is-6">Prestiti di <%= utente.cognome %> </h1>
+<h1 class="subtitle is-4">Prestiti di <%= utente.cognome %> </h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
@@ -12,8 +12,8 @@
     <% @daconsegnare_all.each do |prestito| %>
       <tr>
         <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
-        <td><%= prestito.libro.proprietario %></td>
-        <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id) %></td>
+        <td><%= prestito.libro.utente.cognome %></td>
+        <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id), class: 'button is-warning is-medium'%></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,7 +31,7 @@
     <% @daconsegnare_pers.each do |prestito| %>
       <tr>
         <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
-        <td><%= prestito.libro.proprietario %></td>
+        <td><%= prestito.libro.utente.cognome %></td>
         <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id) %></td>
       </tr>
     <% end %>

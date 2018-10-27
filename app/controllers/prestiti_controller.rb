@@ -43,7 +43,7 @@ end
       @utenti = Utente.all
     end
     @daconsegnare_pers = []
-    utente_corrente.libro.each do |libro|
+    utente_corrente.libri.each do |libro|
       a = Prestito.where(stato: 0, libro: libro)
       a.each do |pres|
         @daconsegnare_pers.push(pres)
