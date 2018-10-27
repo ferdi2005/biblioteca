@@ -33,18 +33,11 @@ class LibriController < ApplicationController
       redirect_to login_path
     end
     if params[:cerca]
-      cerca = params[:cerca]
-      @libro = Libro.where.has { (:nome =~ "#{cerca}") & (:stato == 1) | (:autore =~ "#{cerca}") & (:stato == 1)}
-      if !params[:genere].blank?
-        @libro = Libro.where.has { (:nome =~	params[:cerca]) & (:genere == params[:genere]) & (:stato == 1) | (:autore =~	params[:cerca]) & (:genere == params[:genere]) & (:stato == 1)}
-      elsif !params[:pagine].blank?
-        @libro = Libro.where.has{(:nome =~	params[:cerca]) & (:pagine == params[:pagine]) & (:stato == 1) | (:autore =~	params[:cerca]) & (:pagine == params[:pagine]) & (:stato == 1)}
-      elsif !params[:genere].blank? && !params[:pagine].blank?
-        @libro = Libro.where.has{(:nome =~	params[:cerca]) & (:pagine == params[:pagine]) & (:genere == params[:genere]) & (:stato == 1)| (:autore =~	params[:cerca]) & (:pagine == params[:pagine]) & (:genere == params[:genere]) & (:stato == 1)}
-      end
+      @libro = Libro.search(params["cerca"])
     else
       @libro = Libro.where(stato: 1)
     end
+    flash[:info] = "DEBUG #{@libro}"
   end
 
   def show

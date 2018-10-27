@@ -7,13 +7,23 @@
 <form action="/" method="get">
 <div class="field has-addons">
   <div class="control">
-     <input class="input" placeholder="Titolo o autore" name="cerca" />
+     <input class="input" placeholder="Titolo o autore" name="cerca" id="cerca-libro-field"/>
   </div>
   <div class="control">
-    <input type="submit" class="button is-info" label="Cerca"/>
+    <input type="submit" class="button is-info" label="Cerca" onclick="empty()"/>
   </div>
 </div>
 
+<script>
+function empty() {
+    var x;
+    x = document.getElementById("cerca-libro-field").value;
+    if (x == "") {
+        alert("Inserisci un titolo o un autore prima di cercare.");
+        return false;
+    };
+}
+</script>
 
 <b>Filtri per la ricerca</b>
 <div class="level level-left">
@@ -22,7 +32,6 @@
 <br />
 <div class="select" id="select-generi">
 <select name="genere">
-  <option></option>
   <option>Storico</option>
   <option>fantascienza</option>
   <option>fantasy</option>
@@ -45,7 +54,6 @@
 <br />
 <div class="select" id="select-pagine">
 <select name="pagine">
-  <option></option>
   <option>0-100</option>
   <option>100-200</option>
   <option>200-300</option>
@@ -54,8 +62,11 @@
 </div>
 </div>
 </form>
-<!-- FINE FORM DI RICERCA © F.T.  -->
+<!-- FINE FORM DI RICERCA -->
 
+<% if @libro.nil? %>
+<h1 class="title is-2 has-text-centered">La ricerca non ha trovato nessun libro</h1>
+<% else %>
 <table class="table">
   <thead>
     <tr>
@@ -80,3 +91,4 @@
     <% end %>
   </tbody>
 </table>
+<% end %>

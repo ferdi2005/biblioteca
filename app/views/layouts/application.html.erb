@@ -30,9 +30,11 @@
     <%= link_to 'Prestiti', prestiti_path, class: 'navbar-item' %>
     <% if loggato? %>
     <%= link_to 'Logout', logout_path, class: 'navbar-item', method: :delete %>
-    <% end %>
     <% if utente_corrente.admin? %>
-      <%= link_to 'Prestiti', prestiti_path, class: 'navbar-item' %>
+      <%= link_to 'Registra', registrazione_path, class: 'navbar-item' %>
+      <%= link_to 'Da approvare', approva_path, class: 'navbar-item' %>
+
+    <% end %>
     <% end %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
