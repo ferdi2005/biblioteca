@@ -1,39 +1,108 @@
-<h1 class="title is-1">Prestiti richiesti</h1>
-<table class="table">
-  <thead>
-    <th>Titolo del libro</th>
-    <th>Scadenza</th>
-    <th>Stato</th>
-  </thead>
-  <tbody>
-    <% @prestiti.each do |prestito| %>
-    <tr>
-      <td><%= prestito.libro.titolo %></td>
-      <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
-      <td><%= prestito.stato %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-
 <% if utente_corrente.admin? %>
-<% @utenti.each do |utente| %>
-  <h1 class="subtitle is-2">Richiesti da <%= utente.cognome %></h1>
+  <% @utenti.each do |utente| %>
+  <% @prestitiscaduti = Prestito.where(stato: 1, utente: utente)%>
+  <% if @prestitiscaduti.any? %>
+  <h1 class="title is-2">Prestiti scaduti</h1>
+  <h1 class="subtitle is-4">Prestiti scaduti di <%= utente.cognome %> </h1>
   <table class="table">
     <thead>
       <th>Titolo del libro</th>
-      <th>Scadenza</th>
-      <th>Stato</th>
+      <th>Richiedente</th>
+      <th>Proprietario</th>
+      <th>Consegna</th>
     </thead>
     <tbody>
-      <% utente.prestito.each do |prestito| %>
-      <tr>
-        <td><%= prestito.libro.titolo %></td>
-        <td><%= prestito.scadenza.strftime('%d %m %y') %> </td>
-        <td><%= prestito.stato %></td>
-      </tr>
+      <% @prestitiscaduti.each do |prestito| %>
+      <% if prestito.scadenza <= DateTime.now %>
+          <tr>
+            <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+            <td><%= prestito.utente.cognome %></td>
+            <td><%= prestito.libro.utente.cognome %></td>
+            <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id), class: 'button is-warning is-medium'%></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
+  <% end %>
+  <% end %>
+
+<% if @prestitiscaduti_usr.any? %>
+<h1 class="title is-2">Prestiti scaduti</h1>
+<h1 class="subtitle is-4">Prestiti scaduti di <%= utente.cognome %> </h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Proprietario</th>
+    <th>Consegna</th>
+  </thead>
+  <tbody>
+    <% @prestitiscaduti_usr.each do |prestito| %>
+    <% if prestito.scadenza <= DateTime.now %>
+        <tr>
+          <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+          <td><%= prestito.libro.utente.cognome %></td>
+          <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id), class: 'button is-warning is-medium'%></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<% end %>
+<% if utente_corrente.admin? %>
+<% @utenti.each do |utente| %>
+<% @daconsegnare_all = Prestito.where(stato: 0, utente: utente)%>
+<% if @daconsegnare_all.any? %>
+<h1 class="title is-2">Prestiti da consegnare</h1>
+<h1 class="subtitle is-4">Prestiti di <%= utente.cognome %> </h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Proprietario</th>
+    <th>Consegna</th>
+  </thead>
+  <tbody>
+    <% @daconsegnare_all.each do |prestito| %>
+      <tr>
+        <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+        <td><%= prestito.libro.utente.cognome %></td>
+        <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id), class: 'button is-warning is-medium'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <% end %>
 <% end %>
+<% elsif @daconsegnare_pers.any? %>
+<h1 class="title is-1">Prestiti da consegnare</h1>
+<table class="table">
+  <thead>
+    <th>Titolo del libro</th>
+    <th>Proprietario</th>
+    <th>Consegna</th>
+  </thead>
+  <tbody>
+    <% @daconsegnare_pers.each do |prestito| %>
+      <tr>
+        <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
+        <td><%= prestito.libro.utente.cognome %></td>
+        <td><%= link_to 'Consegna libro', consegna_path(:id => prestito.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+
+<h1 class="title is-3">Storico generale prestiti </h1><button  id="mostratutti" class="button is-primary is-medium">Mostra tutti</button>
+
+<div id="storico"></div>
+
+<script>
+$('#mostratutti').click(function(){
+  $("#storico").append('<table class="table"><thead><th>Titolo del libro</th><th>Scadenza</th><th>Stato</th><th>Pagina</th>  </thead><tbody><% @prestiti.each do |prestito| %><tr>  <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d %m %y") %> </td><td><%= prestito.stato %> </td>  <td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td>  </tr>  <% end %>  </tbody> </table> <% if utente_corrente.admin? %>  <% @utenti.each do |utente| %> <h1 class="subtitle is-4">Richiesti da <%= utente.cognome %></h1> <table class="table"> <thead>  <th>Titolo del libro</th> <th>Scadenza</th>  <th>Stato</th>  <th>Pagina</th></thead><tbody>  <% utente.prestito.each do |prestito| %>  <tr> <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d %m %y") %> </td><td><%= prestito.stato %> </td><td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td></tr>  <% end %>  </tbody></table><% end %><% end %>');
+  $('#mostratutti').addClass('is-hidden');
+});
+</script>

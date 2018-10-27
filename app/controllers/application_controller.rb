@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include SessioniHelper
+  include PrestitiHelper
   def qualcuno?
     if utente_corrente.nil?
       redirect_to login_path
@@ -14,4 +15,5 @@ class ApplicationController < ActionController::Base
       flash[:danger] = "L'utente non ha i diritti per eseguire questa azione. E che sei il grande a casa tua?"
     end
   end
+
 end

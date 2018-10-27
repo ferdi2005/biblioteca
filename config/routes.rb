@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'statistiche/stat'
   root "libri#index"
 
   get 'registrazione', to: 'utenti#new'
@@ -15,5 +16,10 @@ Rails.application.routes.draw do
 
   resources :libri
   resources :prestiti, only: [:show, :index]
+
+  get 'consegna', to: 'prestiti#consegna'
+  get 'restituisci', to: 'prestiti#restituisci'
+  post 'restituisci', to: 'prestiti#restituzione'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

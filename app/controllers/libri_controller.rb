@@ -32,7 +32,12 @@ class LibriController < ApplicationController
     unless loggato?
       redirect_to login_path
     end
-    @libro = Libro.where(stato: 1)
+    if params[:cerca]
+      @libro = Libro.search(params["cerca"])
+    else
+      @libro = Libro.where(stato: 1)
+    end
+    flash[:info] = "DEBUG #{@libro}"
   end
 
   def show
@@ -58,5 +63,5 @@ class LibriController < ApplicationController
 end
 private
 def parametri_creazione
-    params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine)
+    params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine)
 end
