@@ -1,0 +1,19 @@
+{
+  "name": "Biblioteca di classe",
+  "description": "Una semplicissima app per gestire una biblioteca in classe.",
+  "repository": "https://github.com/ferdi2005/biblioteca",
+  "keywords": ["ruby", "ruby-on-rails", "classroom"]
+  "env": {
+    "BASE": {
+      "description": "il nome utente del primo amministratore che creerà tutti gli altri",
+      "required": "true"
+    }
+    "BASEPASSWORD": {
+      "description": "la password del primo amministratore indicato in BASE",
+      "required": "true"
+    }
+  }
+}
+  "website": "https://bibliotecadiclasse.eu/"
+
+}
