@@ -18,7 +18,7 @@ class PrestitiController < ApplicationController
       redirect_to libri_path
       flash[:danger] = "Ehi tu! Ma questo è il tuo libro! Non puoi richiedere un prestito per il tuo libro stesso, ce l'hai già a casa!"
     else
-      @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0, scadenza: DateTime.now + 15.days)
+      @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0, scadenza: Date.today + 15.days)
       if @prestito.save
         redirect_to @prestito
         flash[:success] = "Prestito richiesto con successo."
@@ -32,7 +32,7 @@ class PrestitiController < ApplicationController
 
   def consegna
     prestito = Prestito.find(params[:id])
-    prestito.update_attributes(stato: 1, consegna: DateTime.now)
+    prestito.update_attributes(stato: 1, consegna: Date.today)
     redirect_to prestito
     flash[:success] = "La consegna del libro è stata registrata con successo."
   end
@@ -49,14 +49,23 @@ class PrestitiController < ApplicationController
     end
     @prestito = Prestito.find(session[:id_prestito])
     if @prestito.stato == 1
-      @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: DateTime.now)
+      @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: Date.today)
       if @prestito.libro.voto.nil?
+        logger.debug @prestito.libro.voto
+        logger.debug 'IO STO FACENDO CON NIL'
         voto = params[:prestito][:ranking]
       else
+        logger.debug @prestito.libro.voto
+        logger.debug 'IO STO FACENDO NORMALE'
         voto = @prestito.libro.voto
+        logger.debug 'VOTO ' + voto
         voto += params[:prestito][:ranking]
+        logger.debug 'VOTO ' + voto
         voto /= 2
-        @prestito.libro.update_attributes(voto: voto)
+        logger.debug 'VOTO ' + voto
+        if @prestito.libro.update_attribute(:voto, voto)
+          logger.debug 'success'
+        end
       end
       redirect_to libri_path
       flash[:success] = "Restituzione del libro effettuata con successo"

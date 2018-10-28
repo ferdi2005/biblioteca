@@ -1,5 +1,5 @@
 <% if utente_corrente.admin? %>
-  <% @utenti.each do |utente| %>
+<% @utenti.each do |utente| %>
   <% @prestitiscaduti = Prestito.scadenza.where(utente: utente)%>
   <% if @prestitiscaduti.any? %>
   <h1 class="title is-2">Prestiti scaduti</h1>
@@ -25,9 +25,9 @@
   <% end %>
   <% end %>
 
-<% if @prestitiscaduti_usr.any? %>
+<% if !utente_corrente.admin? && @prestitiscaduti_usr.any? %>
 <h1 class="title is-2">Prestiti scaduti</h1>
-<h1 class="subtitle is-4">Prestiti scaduti di <%= utente.cognome %> </h1>
+<h1 class="subtitle is-4">I miei prestiti scaduti</h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
@@ -52,7 +52,7 @@
 <% @daconsegnare_all = Prestito.where(stato: 0, utente: utente)%>
 <% if @daconsegnare_all.any? %>
 <h1 class="title is-2">Prestiti da consegnare</h1>
-<h1 class="subtitle is-4">Prestiti di <%= utente.cognome %> </h1>
+<h1 class="subtitle is-4">Prestiti da consegnare a <%= utente.cognome %> </h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
@@ -71,7 +71,7 @@
 </table>
 <% end %>
 <% end %>
-<% elsif @daconsegnare_pers.any? %>
+<% elsif @daconsegnare_pers.any? && !utente_corrente.admin? %>
 <h1 class="title is-1">Prestiti da consegnare</h1>
 <table class="table">
   <thead>

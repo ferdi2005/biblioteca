@@ -33,7 +33,7 @@
     <%= link_to 'Logout', logout_path, class: 'navbar-item', method: :delete %>
     <% if utente_corrente.admin? %>
       <%= link_to 'Registra', registrazione_path, class: 'navbar-item' %>
-      <%= link_to 'Da approvare', approva_path, class: 'navbar-item' %>
+      <%= link_to 'Da approvare', approvare_path, class: 'navbar-item' %>
 
     <% end %>
     <% end %>

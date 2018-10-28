@@ -1,11 +1,12 @@
 <%= image_tag @libro.immagine.variant(resize: "500"), align: :right if @libro.immagine.attached? %>
 <h1 class="title is-2"><%= @libro.titolo %></h1>
 <h2 class="subtitle is-3"><b>Autore: </b><%= @libro.autore %></h2>
-<p><b>Genere:</b><%= @libro.genere %></p>
-<p><b>Pagine:</b><%= @libro.pagine %></p>
+<p><b>Genere:</b> <%= @libro.genere.capitalize %></p>
+<p><b>Pagine:</b> <%= @libro.pagine %></p>
+<p><b>Proprietario:</b> <%= @libro.utente.cognome.capitalize %></p>
+
   <br />
 <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large' %>
-<p>Proprietario: <%= @libro.utente.cognome %></p>
 <br />
 <h2 class="title is-3">Trama e dettagli</h2>
 <p><%= @libro.trama %></p>
@@ -29,10 +30,10 @@
   <tbody>
     <% @libro.prestito.each do |prestito| %>
     <tr>
-      <th><%= prestito.utente.cognome %></th>
-      <th><%= prestito.recensione %>
-      <th><%= link_to 'Scheda prestito', prestito, class: 'button is-info' %>
-      <th><%= statoprestito(prestito) %>
+      <td><%= prestito.utente.cognome %></td>
+      <td><%= prestito.recensione %></td>
+      <td><%= link_to 'Scheda prestito', prestito, class: 'button is-info' %></td>
+      <td><%= statoprestito(prestito) %></td>
     </tr>
     <% end %>
   </tbody>

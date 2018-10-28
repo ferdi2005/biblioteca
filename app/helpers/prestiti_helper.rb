@@ -5,8 +5,8 @@ module PrestitiHelper
         s = 'prestito richiesto'
       when 1
         s = 'libro consegnato'
-          if DateTime.now > prestito.scadenza
-            s = 'IN RITARDO SULLA CONSEGNA'
+          if Date.today > prestito.scadenza
+            s = 'IN RITARDO SULLA RESTITUZIONE'
           end
       when 2
         s = 'libro restituito'

@@ -3,6 +3,6 @@ class Prestito < ApplicationRecord
   belongs_to :libro
 
   def self.scadenza
-      where("scadenza < ?", "%#{DateTime.now}%").where(stato: 1)
+      where("scadenza < ?", "#{Date.today}").where(stato: 1)
   end
 end
