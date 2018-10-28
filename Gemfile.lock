@@ -47,10 +47,6 @@ GEM
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
-    baby_squeel (1.3.1)
-      activerecord (>= 4.2.0)
-      join_dependency (~> 0.1.2)
-      polyamorous (~> 1.3)
     bcrypt (3.1.12)
     bindex (0.5.0)
     bootsnap (1.3.2)
@@ -92,8 +88,6 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
-    join_dependency (0.1.4)
-      activerecord (>= 4.2.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -117,8 +111,6 @@ GEM
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     pg (1.1.3)
-    polyamorous (1.3.3)
-      activerecord (>= 3.0)
     public_suffix (3.0.3)
     puma (3.12.0)
     rack (2.0.5)
@@ -207,7 +199,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  baby_squeel
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug

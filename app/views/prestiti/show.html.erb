@@ -1,12 +1,12 @@
 <h1 class="title is-2">Prestito <%= @prestito.id %> per il libro <%= link_to @prestito.libro.titolo.capitalize, @prestito.libro %></h1>
 <h2 class="subtitle is-2">Stato: <%= statoprestito(@prestito) %></h2>
-<h2 class="subtitle is-4">Proprietario del libro: <%= @prestito.libro.utente.cognome %></h2>
-<h2 class="subtitle is-4">Richiedente del prestito: <%= @prestito.utente.cognome %></h2>
+<h2 class="subtitle is-4">Proprietario del libro: <%= @prestito.libro.utente.cognome.capitalize %></h2>
+<h2 class="subtitle is-4">Richiedente del prestito: <%= @prestito.utente.cognome.capitalize %></h2>
 <% if @prestito.stato >= 1 %>
 <h2 class="subtitle is-4">Consegna effettuata: <%= @prestito.consegna.strftime('%d/%m/%y') %></h2>
 <h2 class="subtitle is-4">Scadenza del prestito: <%= @prestito.scadenza.strftime('%d/%m/%y') %></h2>
 <% end %>
-<% if @prestito.stato == 1 %>
+<% if @prestito.stato == 1 && utente_corrente.admin? %>
 <%= link_to 'Restituisci prestito', restituisci_path(id: @prestito.id), class: 'button is-link is-large'%>
 <% end %>
 <% if @prestito.stato == 2 %>

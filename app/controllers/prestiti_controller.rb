@@ -1,6 +1,6 @@
 class PrestitiController < ApplicationController
   before_action :qualcuno?
-  before_action :admin?, only: [:consegna]
+  before_action :admin?, only: [:consegna, :restituisci, :restituzione]
 
   def create
     unless params[:id]
@@ -18,7 +18,7 @@ class PrestitiController < ApplicationController
       redirect_to libri_path
       flash[:danger] = "Ehi tu! Ma questo è il tuo libro! Non puoi richiedere un prestito per il tuo libro stesso, ce l'hai già a casa!"
     else
-      @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0, scadenza: Date.today + 15.days)
+      @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0)
       if @prestito.save
         redirect_to @prestito
         flash[:success] = "Prestito richiesto con successo."
@@ -32,9 +32,14 @@ class PrestitiController < ApplicationController
 
   def consegna
     prestito = Prestito.find(params[:id])
-    prestito.update_attributes(stato: 1, consegna: Date.today)
-    redirect_to prestito
-    flash[:success] = "La consegna del libro è stata registrata con successo."
+    if prestito.stato == 0
+      prestito.update_attributes(stato: 1, consegna: Date.today, scadenza: Date.today + 15.days)
+      redirect_to prestito
+      flash[:success] = "La consegna del libro è stata registrata con successo, la data di scadenza è stata inserita."
+    else
+      redirect_to prestito
+      flash[:danger] = "Un prestito consegnato o chiuso non può essere registrato nuovamente come consegnato."
+    end
   end
 
   def restituisci
@@ -50,27 +55,12 @@ class PrestitiController < ApplicationController
     @prestito = Prestito.find(session[:id_prestito])
     if @prestito.stato == 1
       @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: Date.today)
-      if @prestito.libro.voto.nil?
-        logger.debug @prestito.libro.voto
-        logger.debug 'IO STO FACENDO CON NIL'
-        voto = params[:prestito][:ranking]
-      else
-        logger.debug @prestito.libro.voto
-        logger.debug 'IO STO FACENDO NORMALE'
-        voto = @prestito.libro.voto
-        logger.debug 'VOTO ' + voto
-        voto += params[:prestito][:ranking]
-        logger.debug 'VOTO ' + voto
-        voto /= 2
-        logger.debug 'VOTO ' + voto
-        if @prestito.libro.update_attribute(:voto, voto)
-          logger.debug 'success'
-        end
-      end
+      p = Prestito.where(libro_id: @prestito.libro.id)
+      @prestito.libro.update_attribute(:voto, p.average(:voto).to_i)
       redirect_to libri_path
       flash[:success] = "Restituzione del libro effettuata con successo"
     else
-      render 'restituisci'
+      redirect_to restituisci_path(id: session[:id_prestito])
       flash[:warning] = "Uno o più parametri non sono stati compilati o non sono stati compilati correttamente."
     end
   end

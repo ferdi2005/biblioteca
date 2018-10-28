@@ -15,8 +15,8 @@
       <% @prestitiscaduti.each do |prestito| %>
           <tr>
             <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
-            <td><%= prestito.utente.cognome %></td>
-            <td><%= prestito.libro.utente.cognome %></td>
+            <td><%= prestito.utente.cognome.capitalize %></td>
+            <td><%= prestito.libro.utente.cognome.capitalize %></td>
             <td><%= link_to 'Restituisci prestito', restituisci_path(:id => prestito.id), class: 'button is-danger is-medium'%></td>
           </tr>
       <% end %>
@@ -27,19 +27,17 @@
 
 <% if !utente_corrente.admin? && @prestitiscaduti_usr.any? %>
 <h1 class="title is-2">Prestiti scaduti</h1>
-<h1 class="subtitle is-4">I miei prestiti scaduti</h1>
+<h1 class="subtitle is-4">Ricordati di restituire il libro a scuola nel primo giorno utile.</h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
     <th>Proprietario</th>
-    <th>Consegna</th>
   </thead>
   <tbody>
     <% @prestitiscaduti_usr.each do |prestito| %>
         <tr>
           <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
           <td><%= prestito.libro.utente.cognome %></td>
-          <td><%= link_to 'Restituisci prestito', restituisci_path(:id => prestito.id), class: 'button is-danger is-medium'%></td>
         </tr>
     <% end %>
   </tbody>
@@ -72,19 +70,18 @@
 <% end %>
 <% end %>
 <% elsif @daconsegnare_pers.any? && !utente_corrente.admin? %>
-<h1 class="title is-1">Prestiti da consegnare</h1>
+<h1 class="title is-1">Libri da consegnare in prestito</h1>
+<p>Porta il libro a scuola domani e consegnalo a chi si occupa della biblioteca. Assicurati che si ricordi di inserire il prestito a sistema dal suo account amministratore.</p>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
     <th>Proprietario</th>
-    <th>Consegna</th>
   </thead>
   <tbody>
     <% @daconsegnare_pers.each do |prestito| %>
       <tr>
         <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
-        <td><%= prestito.libro.utente.cognome %></td>
-        <td><%= link_to 'Consegna libro', consegna_path(:id => prestito.id) %></td>
+        <td><%= prestito.utente.cognome.capitalize %></td>
       </tr>
     <% end %>
   </tbody>
@@ -98,7 +95,7 @@
 
 <script>
 $('#mostratutti').click(function(){
-  $("#storico").append('<table class="table"><thead><th>Titolo del libro</th><th>Scadenza</th><th>Stato</th><th>Pagina</th>  </thead><tbody><% @prestiti.each do |prestito| %><tr>  <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d %m %y") %> </td><td><%= prestito.stato %> </td>  <td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td>  </tr>  <% end %>  </tbody> </table> <% if utente_corrente.admin? %>  <% @utenti.each do |utente| %> <h1 class="subtitle is-4">Richiesti da <%= utente.cognome %></h1> <table class="table"> <thead>  <th>Titolo del libro</th> <th>Scadenza</th>  <th>Stato</th>  <th>Pagina</th></thead><tbody>  <% utente.prestito.each do |prestito| %>  <tr> <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d %m %y") %> </td><td><%= statoprestito(prestito) %> </td><td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td></tr>  <% end %>  </tbody></table><% end %><% end %>');
+  $("#storico").append('<table class="table"><thead><th>Titolo del libro</th><th>Scadenza</th><th>Stato</th><th>Pagina</th>  </thead><tbody><% @prestiti.each do |prestito| %><tr>  <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d/%m/%y") if !prestito.scadenza.nil? %> </td><td><%= prestito.stato %> </td>  <td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td>  </tr>  <% end %>  </tbody> </table> <% if utente_corrente.admin? %>  <% @utenti.each do |utente| %> <h1 class="subtitle is-4">Richiesti da <%= utente.cognome %></h1> <table class="table"> <thead>  <th>Titolo del libro</th> <th>Scadenza</th>  <th>Stato</th>  <th>Pagina</th></thead><tbody>  <% utente.prestito.each do |prestito| %>  <tr> <td><%= prestito.libro.titolo %></td><td><%= prestito.scadenza.strftime("%d/%m/%y") if !prestito.scadenza.nil?%> </td><td><%= statoprestito(prestito) %> </td><td><%= link_to "Pagina prestito", prestito, class: "button is-info is-small" %></td></tr>  <% end %>  </tbody></table><% end %><% end %>');
   $('#mostratutti').addClass('is-hidden');
 });
 </script>
