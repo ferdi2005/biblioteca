@@ -1,6 +1,7 @@
 class PrestitiController < ApplicationController
   before_action :qualcuno?
   before_action :admin?, only: [:consegna]
+
   def create
     unless params[:id]
       redirect_to libri_path
@@ -42,21 +43,34 @@ class PrestitiController < ApplicationController
   end
 
   def restituzione
+    unless session[:id_prestito]
+      redirect_to libri_path
+      flash[:danger] = "Non è possibile restituire un prestito senza prima aver premuto il tasto di restituzione sul prestito giusto o aver indicato l'ID"
+    end
     @prestito = Prestito.find(session[:id_prestito])
-    @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note])
-    voto = @prestito.libro.voto
-    voto += params[:prestito][:ranking]
-    voto /= 2
-    @prestito.libro.update_attributes(voto: voto)
-    redirect_to @prestito
-    flash[:success] = "Restituzione del libro effettuata con successo"
+    if @prestito.stato == 1
+      @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: DateTime.now)
+      if @prestito.libro.voto.nil?
+        voto = params[:prestito][:ranking]
+      else
+        voto = @prestito.libro.voto
+        voto += params[:prestito][:ranking]
+        voto /= 2
+        @prestito.libro.update_attributes(voto: voto)
+      end
+      redirect_to libri_path
+      flash[:success] = "Restituzione del libro effettuata con successo"
+    else
+      render 'restituisci'
+      flash[:warning] = "Uno o più parametri non sono stati compilati o non sono stati compilati correttamente."
+    end
   end
 
   def index
     if utente_corrente.admin?
       @utenti = Utente.all
     end
-    @prestitiscaduti_usr = Prestito.where(stato: 1, utente: utente_corrente)
+    @prestitiscaduti_usr = Prestito.scadenza.where(utente: utente_corrente)
     @daconsegnare_pers = []
     utente_corrente.libri.each do |libro|
       a = Prestito.where(stato: 0, libro: libro)

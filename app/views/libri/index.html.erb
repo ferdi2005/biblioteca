@@ -14,24 +14,14 @@
   </div>
 </div>
 
-<script>
-function empty() {
-    var x;
-    x = document.getElementById("cerca-libro-field").value;
-    if (x == "") {
-        alert("Inserisci un titolo o un autore prima di cercare.");
-        return false;
-    };
-}
-</script>
-
-<b>Filtri per la ricerca</b>
+<b>Filtri per la ricerca</b> <p style="font-size: 8px;">Suggerimento: puoi anche evitare di specificare un titolo ed effettuare una ricerca per generi o pagine!</p>
 <div class="level level-left">
 <label for="select-generi" class="label">Genere</label>
 <br />
 <br />
 <div class="select" id="select-generi">
 <select name="genere">
+  <option></option>
   <option>Storico</option>
   <option>fantascienza</option>
   <option>fantasy</option>
@@ -54,6 +44,7 @@ function empty() {
 <br />
 <div class="select" id="select-pagine">
 <select name="pagine">
+  <option></option>
   <option>0-100</option>
   <option>100-200</option>
   <option>200-300</option>
@@ -70,9 +61,10 @@ function empty() {
 <table class="table">
   <thead>
     <tr>
-      <th>Foto</th>
+      <th><i class="fas fa-image"></i></th>
       <th>Titolo</th>
       <th>Autore</th>
+      <th>Gen. e pag.</th>
       <th>Richiedi</th>
     </th>
   </thead>
@@ -80,12 +72,13 @@ function empty() {
     <% @libro.each do |libro| %>
       <tr>
         <% if libro.immagine.attached? %>
-          <td><%= image_tag libro.immagine.variant(resize: '200') %></td>
+          <td><%= image_tag libro.immagine.variant(resize: '100') %></td>
         <% else %>
           <td></td>
         <% end %>
         <td><%= link_to libro.titolo, libro %></td>
         <td><%= libro.autore %></td>
+        <td><%= libro.genere %><br /><%= libro.pagine %></td>
         <td><%= link_to 'Richiedi in prestito', richiedi_path(:id => libro.id), class: 'button is-primary is-medium' %> <%= link_to 'Scheda del libro', libro, class: 'button is-info is-small'%></td>
       </tr>
     <% end %>

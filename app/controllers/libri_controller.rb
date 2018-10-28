@@ -32,8 +32,14 @@ class LibriController < ApplicationController
     unless loggato?
       redirect_to login_path
     end
-    if params[:cerca]
-      @libro = Libro.search(params["cerca"])
+    if !params[:cerca].blank?
+      @libro = Libro.search(params[:cerca])
+    elsif !params[:genere].blank?
+      @libro = Libro.search(params[:cerca], params[:genere])
+    elsif !params[:pagine].blank?
+      @libro = Libro.search(params[:cerca], nil, params[:pagine])
+    elsif !params[:genere].blank? && !params[:pagine].blank?
+      @libro = Libro.search(params[:cerca], params[:genere], params[:pagine])
     else
       @libro = Libro.where(stato: 1)
     end

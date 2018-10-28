@@ -1,5 +1,5 @@
 <h1 class="title is-1">Scheda di restituzione per il prestito <%= @prestito.id %> del libro <%= @prestito.libro.titolo %></h1>
-<% form_for(@prestito, url: restituisci_path, method: :post, :html => { :class => 'rating' } ) do |f| %>
+<%= form_for(@prestito, url: restituisci_path, method: :post, :html => { :class => 'rating' } ) do |f| %>
 
   <div class="control">
     <%= f.label :recensione, class: 'label' %>
@@ -25,5 +25,6 @@
     <%= f.text_area :note, class: 'textarea' %>
   </div>
 
-<%= f.submit 'Invia e chiudi', class: 'button is-danger' %>
+<br />
+<%= f.submit 'Salva dati e conferma restituzione', class: 'button is-danger is-medium' %>
 <% end %>
