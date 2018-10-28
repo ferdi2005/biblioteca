@@ -42,11 +42,10 @@ ActiveRecord::Schema.define(version: 2018_10_27_203746) do
     t.datetime "updated_at", null: false
     t.float "costo"
     t.text "trama"
-    t.string "foto"
     t.integer "voto"
     t.integer "stato"
     t.string "genere"
-    t.integer "pagine"
+    t.string "pagine"
     t.index ["utente_id"], name: "index_libri_on_utente_id"
   end
 
