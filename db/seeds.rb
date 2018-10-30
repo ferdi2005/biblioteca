@@ -8,7 +8,7 @@
 30.times do
   genere = ["Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"].sample
   pagine = ["0-100", "100-200", "200-300", "300+"].sample
-  titolo = Faker::Book.title
+  titolo = Faker::Book.unique.title
   autore = Faker::Book.author
   u = Utente.first
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_203746) do
+ActiveRecord::Schema.define(version: 2018_10_30_215542) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_203746) do
     t.integer "stato"
     t.string "genere"
     t.string "pagine"
+    t.index ["titolo"], name: "index_libri_on_titolo", unique: true
     t.index ["utente_id"], name: "index_libri_on_utente_id"
   end
 
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_203746) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.index ["cognome"], name: "index_utenti_on_cognome", unique: true
   end
 
 end
