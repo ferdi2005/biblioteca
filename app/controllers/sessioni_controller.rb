@@ -8,7 +8,7 @@ class SessioniController < ApplicationController
       flash[:success] = 'Utente principale creato con successo. Da ora in poi potrai accedere con le credenziali impostate.'
     end
 
-    @utente = Utente.find_by_cognome(params[:utente][:cognome].downcase)
+    @utente = Utente.find_by_cognome(params[:utente][:cognome].downcase.strip)
     if @utente
     if @utente.admin?
       if @utente.authenticate(params[:utente][:password])

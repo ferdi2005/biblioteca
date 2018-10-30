@@ -5,7 +5,7 @@ class UtentiController < ApplicationController
   end
 
   def create
-      @utente = Utente.new(cognome: params[:utente][:cognome].downcase)
+      @utente = Utente.new(cognome: params[:utente][:cognome].downcase.strip)
       @utente.password = ([*('A'..'Z'),*('0'..'9')]-%w(0 1 I O)).sample(5).join
       if @utente.save
         if utente_corrente.admin? && params[:utente][:admin] == '1'
