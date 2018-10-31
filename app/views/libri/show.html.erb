@@ -8,20 +8,19 @@
   <br />
 <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large' %>
 <br />
-<% if !@libro.trama.nil? && !@libro.costo.nil? && !@libro.voto.nil? %>
-<% else %>
-  <h2 class="title is-3">Trama e dettagli</h2>
-<% end %>
+<% if @libro.trama %>
+  <h2 class="title is-3">Trama</h2>
 <p><%= @libro.trama %></p>
 <br />
-<% if !@libro.costo.nil? %>
+<% end %>
+<% if @libro.costo %>
   <p>Se lo prendessi in libreria, pagheresti questo libro <%= number_to_currency(@libro.costo, unit: "€", separator: ',', delimiter: '.', raise: false, format: '%u %n')%>.</p>
   <br />
 <% end %>
-<% if !@libro.voto.nil? %>
+<% if !@libro.voto %>
   <p>La media dei voti di questo libro è di <b><%= @libro.voto %></b>.</p>
+  <br />
 <% end %>
-<br />
 <% if @libro.prestito.any? %>
   <h1 class="title is-3">Storico prestiti</h1>
   <table class="table">
@@ -36,7 +35,7 @@
     <tbody>
       <% @libro.prestito.each do |prestito| %>
         <tr>
-          <td><%= prestito.utente.cognome %></td>
+          <td><%= prestito.utente.cognome.capitalize %></td>
           <td><%= prestito.recensione %></td>
           <td><%= link_to 'Scheda prestito', prestito, class: 'button is-info' %></td>
           <td><%= statoprestito(prestito) %></td>
