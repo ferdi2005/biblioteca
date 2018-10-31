@@ -1,6 +1,6 @@
 class LibriController < ApplicationController
   before_action :qualcuno?
-  before_action :admin?, only: [:approva, :approvare]
+  before_action :admin?, only: [:approva, :approvare, :edit, :update, :destroy]
   def new
     @libro = Libro.new
   end
@@ -65,8 +65,38 @@ class LibriController < ApplicationController
     end
   end
 
+  def edit
+    @libro = Libro.find(params[:id])
+    session[:libro_modifica] = @libro.id
+  end
+
+  def destroy
+    @libro = Libro.find(params[:id])
+      if @libro.destroy
+        redirect_to root_path
+        flash[:success] = "Libro eliminato con successo."
+      end
+  end
+
+  def update
+    @libro = Libro.find(session[:libro_modifica]) || Libro.find(params[:id])
+      if params[:libro][:cognome]
+        utente = Utente.find(params[:libro][:cognome])
+      else
+        utente = utente_corrente
+      end
+      if @libro.update_attributes(parametri_creazione.merge(:utente => utente))
+        redirect_to @libro
+        flash[:success] = "Informazioni del libro modificate con successo."
+      else
+        render 'edit'
+        flash[:danger] = "Errore #{@libro.errors.each { |error| puts error}}"
+      end
+  end
+
 end
+
 private
-def parametri_creazione
-    params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine)
-end
+  def parametri_creazione
+      params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine)
+  end

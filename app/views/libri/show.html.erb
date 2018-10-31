@@ -4,9 +4,13 @@
 <p><b>Genere:</b> <%= @libro.genere.capitalize %></p>
 <p><b>Pagine:</b> <%= @libro.pagine %></p>
 <p><b>Proprietario:</b> <%= @libro.utente.cognome.capitalize %></p>
-
+<% if utente_corrente.admin? %>
+  <%= link_to 'Modifica', edit_libro_path(@libro.id), class: 'button is-warning is-small' %>
+  <%= link_to 'Elimina', libro_path(@libro.id), class: 'button is-danger is-small', method: :delete, data: {confirm: 'Sei davvero sicuro di voler eliminare questo libro? Il libro sarà CANCELLATO dal programma così come eventualmente i log. Sii davvero sicuro di quello che fai.'} %>
+<% end %>
   <br />
 <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large' %>
+<br />
 <br />
 <% if @libro.trama %>
   <h2 class="title is-3">Trama</h2>
@@ -17,7 +21,7 @@
   <p>Se lo prendessi in libreria, pagheresti questo libro <%= number_to_currency(@libro.costo, unit: "€", separator: ',', delimiter: '.', raise: false, format: '%u %n')%>.</p>
   <br />
 <% end %>
-<% if !@libro.voto %>
+<% if @libro.voto %>
   <p>La media dei voti di questo libro è di <b><%= @libro.voto %></b>.</p>
   <br />
 <% end %>

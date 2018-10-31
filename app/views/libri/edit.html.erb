@@ -1,0 +1,84 @@
+<h1 class="title is-2">Aggiungi libro</h1>
+<p>Da qui potrai aggiungere un libro che vuoi offrire in prestito alla classe.</p>
+<%= form_for(@libro, url: libro_path(@libro.id), method: :patch) do |f| %>
+  <div class="control">
+    <%= f.label :titolo, class: 'label' %>
+    <%= f.text_field :titolo, class: 'input' %>
+  </div>
+  <div class="control">
+    <%= f.label :autore, class: 'label' %>
+    <%= f.text_field :autore, class: 'input' %>
+  </div>
+  <div class="control">
+    <%= f.label :isbn, class: 'label' %>
+    <%= f.text_field :isbn, class: 'input' %>
+  </div>
+    <%= f.label :trama, class: 'label' %>
+    <%= f.text_area :trama, class: 'textarea' %>
+  <div class="control">
+    <%= f.label 'Quanto lo pagheresti in libreria?', class: 'label' %>
+    <%= f.number_field :costo, step: 0.01, class: 'input' %>
+  </div>
+  <% generi = ["Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"]  %>
+  <div class="select">
+    <%= f.label :genere, class: 'label' %>
+    <%= f.select :genere, generi %>
+  </div>
+  <% pagine = ["0-100", "100-200", "200-300", "300+"]  %>
+  <div class="select">
+    <%= f.label :pagine, class: 'label' %>
+    <%= f.select :pagine, pagine %>
+  </div>
+ <br />
+ <br /> <br/>
+  <label class="label" for="libro_immagine">Foto della copertina</h1>
+  <%= f.file_field :immagine, multiple: false, direct_upload: true %>
+  <script>
+  // direct_uploads.js
+
+addEventListener("direct-upload:initialize", event => {
+  const { target, detail } = event
+  const { id, file } = detail
+  target.insertAdjacentHTML("beforebegin", `
+    <div id="direct-upload-${id}" class="direct-upload direct-upload--pending">
+      <div id="direct-upload-progress-${id}" class="direct-upload__progress" style="width: 0%"></div>
+      <span class="direct-upload__filename">${file.name}</span>
+    </div>
+  `)
+})
+
+addEventListener("direct-upload:start", event => {
+  const { id } = event.detail
+  const element = document.getElementById(`direct-upload-${id}`)
+  element.classList.remove("direct-upload--pending")
+})
+
+addEventListener("direct-upload:progress", event => {
+  const { id, progress } = event.detail
+  const progressElement = document.getElementById(`direct-upload-progress-${id}`)
+  progressElement.style.width = `${progress}%`
+})
+
+addEventListener("direct-upload:error", event => {
+  event.preventDefault()
+  const { id, error } = event.detail
+  const element = document.getElementById(`direct-upload-${id}`)
+  element.classList.add("direct-upload--error")
+  element.setAttribute("title", error)
+})
+
+addEventListener("direct-upload:end", event => {
+  const { id } = event.detail
+  const element = document.getElementById(`direct-upload-${id}`)
+  element.classList.add("direct-upload--complete")
+})
+</script>
+  <% if utente_corrente.admin? %>
+    <div class="control">
+      <%= f.label "Cognome dell'utente", class: 'label' %>
+      <%= f.text_field :utente, class: 'input' %>
+    </div>
+  <% end %>
+  <br />
+  <%= f.submit 'Aggiungi libro', class: 'button is-primary' %>
+<% end %>
