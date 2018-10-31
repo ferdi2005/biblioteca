@@ -10,11 +10,11 @@ class Libro < ApplicationRecord
 
   def self.search(search, genere = nil, pagine = nil)
     if !genere.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND lower(genere) = lower(?) AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}")
+      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND genere = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}")
     elsif !pagine.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND lower(pagine) = lower(?) AND stato = 1", "%#{search}%", "%#{search}%", "#{pagine}")
+      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND pagine = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{pagine}")
     elsif !genere.nil? && !pagine.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND lower(genere) = lower(?) AND lower(pagine) = lower(?) AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}", "#{pagine}")
+      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND genere = ? AND pagine = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}", "#{pagine}")
     else
       where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND stato = 1", "%#{search}%", "%#{search}%")
     end
