@@ -50,7 +50,7 @@
 <% @daconsegnare_all = Prestito.where(stato: 0, utente: utente)%>
 <% if @daconsegnare_all.any? %>
 <h1 class="title is-2">Prestiti da consegnare</h1>
-<h1 class="subtitle is-4">Prestiti da consegnare a <%= utente.cognome %> </h1>
+<h1 class="subtitle is-4">Prestiti da consegnare a <%= utente.cognome.capitalize %> </h1>
 <table class="table">
   <thead>
     <th>Titolo del libro</th>
@@ -61,7 +61,7 @@
     <% @daconsegnare_all.each do |prestito| %>
       <tr>
         <td><%= link_to prestito.libro.titolo, prestito.libro %></td>
-        <td><%= prestito.libro.utente.cognome %></td>
+        <td><%= prestito.libro.utente.cognome.capitalize %></td>
         <td><%= link_to 'Consegna prestito', consegna_path(:id => prestito.id), class: 'button is-warning is-medium'%></td>
       </tr>
     <% end %>
