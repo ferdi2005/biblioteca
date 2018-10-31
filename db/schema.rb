@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2018_10_30_215542) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -37,7 +40,7 @@ ActiveRecord::Schema.define(version: 2018_10_30_215542) do
     t.string "titolo"
     t.string "autore"
     t.string "isbn"
-    t.integer "utente_id"
+    t.bigint "utente_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "costo"
@@ -51,8 +54,8 @@ ActiveRecord::Schema.define(version: 2018_10_30_215542) do
   end
 
   create_table "prestiti", force: :cascade do |t|
-    t.integer "utente_id"
-    t.integer "libro_id"
+    t.bigint "utente_id"
+    t.bigint "libro_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "scadenza"
@@ -75,4 +78,6 @@ ActiveRecord::Schema.define(version: 2018_10_30_215542) do
     t.index ["cognome"], name: "index_utenti_on_cognome", unique: true
   end
 
+  add_foreign_key "prestiti", "libri"
+  add_foreign_key "prestiti", "utenti"
 end
