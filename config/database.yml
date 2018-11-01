@@ -16,7 +16,7 @@ development:
   encoding: unicode
   database: biblio
   username: mait
-  password: <%= ENV.fetch("DB_PASSWORD_DEV") %>
+  password: <%= ENV.fetch("DB_PASSWORD_DEV") ? ENV.fetch("DB_PASSWORD_DEV") : 'no' %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
