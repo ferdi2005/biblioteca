@@ -1,5 +1,4 @@
-<h1 class="title is-2">Aggiungi libro</h1>
-<p>Da qui potrai aggiungere un libro che vuoi offrire in prestito alla classe.</p>
+<h1 class="title is-2">Modifica libro: <%= @libro.titolo %></h1>
 <%= form_for(@libro, url: libro_path(@libro.id), method: :patch) do |f| %>
   <div class="control">
     <%= f.label :titolo, class: 'label' %>
@@ -19,6 +18,7 @@
     <%= f.label 'Quanto lo pagheresti in libreria?', class: 'label' %>
     <%= f.number_field :costo, step: 0.01, class: 'input' %>
   </div>
+
   <% generi = ["Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"]  %>
   <div class="select">
     <%= f.label :genere, class: 'label' %>
@@ -29,10 +29,6 @@
     <%= f.label :pagine, class: 'label' %>
     <%= f.select :pagine, pagine %>
   </div>
- <br />
- <br /> <br/>
-  <label class="label" for="libro_immagine">Foto della copertina</h1>
-  <%= f.file_field :immagine, multiple: false, direct_upload: true %>
   <script>
   // direct_uploads.js
 
@@ -73,12 +69,18 @@ addEventListener("direct-upload:end", event => {
   element.classList.add("direct-upload--complete")
 })
 </script>
+<br />
+<br />
+<br />
+<label class="label" >Foto della copertina</label>
+<%= f.file_field :immagine, multiple: false, direct_upload: true %>
+
   <% if utente_corrente.admin? %>
     <div class="control">
-      <%= f.label "Cognome dell'utente", class: 'label' %>
-      <%= f.text_field :utente, class: 'input' %>
+      <%= f.label "Cognome dell'utente (scrivere solo se da modificare)", class: 'label' %>
+      <input type="text" class="input" name="libro[utente]" />
     </div>
   <% end %>
   <br />
-  <%= f.submit 'Aggiungi libro', class: 'button is-primary' %>
+  <%= f.submit 'Modifica', class: 'button is-primary' %>
 <% end %>

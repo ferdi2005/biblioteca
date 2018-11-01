@@ -12,18 +12,6 @@
   </head>
 
   <!-- NAVBAR start -->
-  <script>
-  $(document).ready(function() {
-      // Check for click events on the navbar burger icon
-      $(".navbar-burger").click(function() {
-
-          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-          $(".navbar-burger").toggleClass("is-active");
-          $(".navbar-menu").toggleClass("is-active");
-
-      });
-    });
-  </script>
   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-menu">
       <%= link_to 'Libri', root_path, class: 'navbar-item' %>
@@ -44,6 +32,19 @@
         <span aria-hidden="true"></span>
       </a>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        // Check for click events on the navbar burger icon
+        $(".navbar-burger").click(function() {
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            $(".navbar-burger").toggleClass("is-active");
+            $(".navbar-menu").toggleClass("is-active");
+
+        });
+      });
+    </script>
   </nav>
   <!-- NAVBAR end -->
   <body>

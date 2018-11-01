@@ -80,12 +80,12 @@ class LibriController < ApplicationController
 
   def update
     @libro = Libro.find(session[:libro_modifica]) || Libro.find(params[:id])
-      if params[:libro][:cognome]
-        utente = Utente.find(params[:libro][:cognome])
+      if !params[:libro][:utente].blank?
+        utente = Utente.find_by_cognome(params[:libro][:utente])
       else
-        utente = utente_corrente
+        utente = @libro.utente
       end
-      if @libro.update_attributes(parametri_creazione.merge(:utente => utente))
+      if @libro.update_attributes(parametri_creazione.merge(utente: utente))
         redirect_to @libro
         flash[:success] = "Informazioni del libro modificate con successo."
       else

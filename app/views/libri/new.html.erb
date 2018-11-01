@@ -19,6 +19,7 @@
     <%= f.label 'Quanto lo pagheresti in libreria?', class: 'label' %>
     <%= f.number_field :costo, step: 0.01, class: 'input' %>
   </div>
+
   <% generi = ["Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"]  %>
   <div class="select">
     <%= f.label :genere, class: 'label' %>
@@ -29,10 +30,6 @@
     <%= f.label :pagine, class: 'label' %>
     <%= f.select :pagine, pagine %>
   </div>
- <br />
- <br /> <br/>
-  <label class="label" for="libro_immagine">Foto della copertina</h1>
-  <%= f.file_field :immagine, multiple: false, direct_upload: true %>
   <script>
   // direct_uploads.js
 
@@ -73,6 +70,12 @@ addEventListener("direct-upload:end", event => {
   element.classList.add("direct-upload--complete")
 })
 </script>
+<br />
+<br />
+<br />
+<label class="label" >Foto della copertina</label>
+<%= f.file_field :immagine, multiple: false, direct_upload: true %>
+
   <% if utente_corrente.admin? %>
     <div class="control">
       <%= f.label "Cognome dell'utente", class: 'label' %>
