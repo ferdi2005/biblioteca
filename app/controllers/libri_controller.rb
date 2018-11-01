@@ -81,7 +81,7 @@ class LibriController < ApplicationController
   def update
     @libro = Libro.find(session[:libro_modifica]) || Libro.find(params[:id])
       if !params[:libro][:utente].blank?
-        utente = Utente.find_by_cognome(params[:libro][:utente])
+        utente = Utente.find_by_cognome(params[:libro][:utente].downcase)
       else
         utente = @libro.utente
       end
