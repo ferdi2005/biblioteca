@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include SessioniHelper
   include PrestitiHelper
+  include Pagy::Backend
   def qualcuno?
     if utente_corrente.nil?
       redirect_to login_path

@@ -11,7 +11,9 @@
   <br />
 <% end %>
   <br />
-<%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large' %>
+<% if @libro.stato == 1 %>
+  <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large' %>
+<% end %>
 <br />
 <br />
 <% if @libro.trama %>

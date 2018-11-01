@@ -67,7 +67,7 @@ class PrestitiController < ApplicationController
 
   def index
     if utente_corrente.admin?
-      @utenti = Utente.all
+      @pagydue, @utenti = pagy(Utente.all)
     end
     @prestitiscaduti_usr = Prestito.scadenza.where(utente: utente_corrente)
     @daconsegnare_pers = []
@@ -77,7 +77,7 @@ class PrestitiController < ApplicationController
         @daconsegnare_pers.push(pres)
       end
     end
-    @prestiti = utente_corrente.prestito
+    @pagyuno, @prestiti = pagy(utente_corrente.prestito)
   end
 
   def show
