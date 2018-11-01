@@ -1,4 +1,4 @@
-<h1 class="title is-1">Scheda di restituzione per il prestito <%= @prestito.id %> del libro <%= @prestito.libro.titolo %></h1>
+<h1 class="title is-1">Scheda di restituzione per il prestito <%= @prestito.id %> del libro <%= @prestito.libro.titolo.capitalize %></h1>
 <%= form_for(@prestito, url: restituisci_path, method: :post, :html => { :class => 'rating' } ) do |f| %>
 
   <div class="control">

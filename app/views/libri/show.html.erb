@@ -1,6 +1,6 @@
 <%= image_tag @libro.immagine.variant(resize: "500"), align: :right if @libro.immagine.attached? %>
-<h1 class="title is-2"><%= @libro.titolo %></h1>
-<h2 class="subtitle is-3"><b>Autore: </b><%= @libro.autore %></h2>
+<h1 class="title is-2"><%= @libro.titolo.capitalize %></h1>
+<h2 class="subtitle is-3"><b>Autore: </b><%= @libro.autore.capitalize %></h2>
 <p><b>Genere:</b> <%= @libro.genere.capitalize %></p>
 <p><b>Pagine:</b> <%= @libro.pagine %></p>
 <p><b>Proprietario:</b> <%= @libro.utente.cognome.capitalize %></p>
