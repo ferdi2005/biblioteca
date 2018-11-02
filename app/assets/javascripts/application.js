@@ -14,8 +14,11 @@
 //= require activestorage
 //= require pagy
 //= require turbolinks
-//= require onesignalsdk
-//= require onesignalsdkworker
+//= require jquery
 //= require_tree .
 
 window.addEventListener("turbolinks:load", Pagy.init);
+if( 'function' === typeof importScripts) {
+  importScripts('https://cdn.onesignal.com/sdks/OneSignalSDKWorker.js');
+  importScripts('https://cdn.onesignal.com/sdks/OneSignalSDKWorker.js');
+}
