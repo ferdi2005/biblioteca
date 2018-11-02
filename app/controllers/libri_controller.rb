@@ -1,6 +1,6 @@
 class LibriController < ApplicationController
   before_action :qualcuno?
-  before_action :admin?, only: [:approva, :approvare, :edit, :update, :destroy]
+  before_action :admin?, only: [:approva, :approvare]
   def new
     @libro = Libro.new
   end
@@ -67,11 +67,19 @@ class LibriController < ApplicationController
 
   def edit
     @libro = Libro.find(params[:id])
+    unless utente_corrente.admin? || @libro.utente == utente_corrente
+      redirect_to libri_path
+      flash[:danger] = 'Non sei admin o il proprietario del libro. Tornatene da dove sei venuto.'
+    end
     session[:libro_modifica] = @libro.id
   end
 
   def destroy
     @libro = Libro.find(params[:id])
+    unless utente_corrente.admin? || @libro.utente == utente_corrente
+      redirect_to libri_path and return
+      flash[:danger] = 'Non sei admin o il proprietario del libro. Tornatene da dove sei venuto.'
+    end
       if @libro.destroy
         redirect_to root_path
         flash[:success] = "Libro eliminato con successo."
@@ -80,6 +88,10 @@ class LibriController < ApplicationController
 
   def update
     @libro = Libro.find(session[:libro_modifica]) || Libro.find(params[:id])
+    unless utente_corrente.admin? || @libro.utente == utente_corrente
+      redirect_to libri_path and return
+      flash[:danger] = 'Non sei admin o il proprietario del libro. Tornatene da dove sei venuto.'
+    end
       if !params[:libro][:utente].blank?
         utente = Utente.find_by_cognome(params[:libro][:utente].downcase)
       else

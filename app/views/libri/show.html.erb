@@ -4,7 +4,7 @@
 <p><b>Genere:</b> <%= @libro.genere.capitalize %></p>
 <p><b>Pagine:</b> <%= @libro.pagine %></p>
 <p><b>Proprietario:</b> <%= @libro.utente.cognome.capitalize %></p>
-<% if utente_corrente.admin? %>
+<% if utente_corrente.admin? || @libro.utente == utente_corrente %>
 <br />
   <%= link_to 'Modifica', edit_libro_path(@libro.id), class: 'button is-warning is-small' %>
   <%= link_to 'Elimina', libro_path(@libro.id), class: 'button is-danger is-small', method: :delete, data: {confirm: 'Sei davvero sicuro di voler eliminare questo libro? Il libro sarà CANCELLATO dal programma così come eventualmente i log. Sii davvero sicuro di quello che fai.'} %>
