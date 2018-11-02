@@ -16,16 +16,16 @@
 <% end %>
 <br />
 <br />
-<% if @libro.trama %>
+<% if !@libro.trama.blank? %>
   <h2 class="title is-3">Trama</h2>
 <p><%= @libro.trama %></p>
 <br />
 <% end %>
-<% if @libro.costo %>
+<% if !@libro.costo.blank? %>
   <p>Se lo prendessi in libreria, pagheresti questo libro <%= number_to_currency(@libro.costo, unit: "€", separator: ',', delimiter: '.', raise: false, format: '%u %n')%>.</p>
   <br />
 <% end %>
-<% if @libro.voto %>
+<% if !@libro.voto.blank? %>
   <p>La media dei voti di questo libro è di <b><%= @libro.voto %></b>.</p>
   <br />
 <% end %>
