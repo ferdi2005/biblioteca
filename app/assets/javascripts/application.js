@@ -14,6 +14,8 @@
 //= require activestorage
 //= require pagy
 //= require turbolinks
+//= require onesignalsdk
+//= require onesignalsdkworker
 //= require_tree .
 
 window.addEventListener("turbolinks:load", Pagy.init);

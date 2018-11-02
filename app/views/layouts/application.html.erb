@@ -8,6 +8,16 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+        OneSignal.init({
+          appId: "<%= ENV['ONESIGNAL_APPID'] %>",
+        });
+      });
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
@@ -48,6 +58,9 @@
   </nav>
   <!-- NAVBAR end -->
   <body>
+    <% if loggato? %>
+      <div class='onesignal-customlink-container'></div>
+    <% end %>
     <div class="section">
       <% flash.each do |tipo_messaggio, messaggio| %>
           <div class="notification is-<%= tipo_messaggio %>"><%= messaggio %></div>
