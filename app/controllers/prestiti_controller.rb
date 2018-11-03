@@ -8,8 +8,8 @@ class PrestitiController < ApplicationController
       flash[:warning] = "Non è possibile richiedere un prestito senza specificare quale libro si voglia chiedere in prestito."
     end
     @libro = Libro.find(params[:id].to_i)
-    if @prestito = Prestito.find_by(utente: utente_corrente, libro: @libro)
-      redirect_to @prestito
+    if @mioprestito = Prestito.find_by(utente: utente_corrente, libro: @libro)
+      redirect_to @mioprestito
       flash[:danger] = "Non è possibile richiedere un prestito per un libro che si ha già letto. Questa è la pagina del prestito con il quale hai letto questo libro."
     elsif Prestito.find_by(libro: @libro, stato: 0) || Prestito.find_by(libro: @libro, stato: 1)
       redirect_to libri_path
@@ -17,6 +17,9 @@ class PrestitiController < ApplicationController
     elsif utente_corrente.id == @libro.utente.id
       redirect_to libri_path
       flash[:danger] = "Ehi tu! Ma questo è il tuo libro! Non puoi richiedere un prestito per il tuo libro stesso, ce l'hai già a casa!"
+    elsif @mioprestito = Prestito.find_by(utente: utente_corrente, stato: 0) || Prestito.find_by(utente: utente_corrente, stato: 1)
+      redirect_to @mioprestito
+      flash[:danger] = "Non puoi richiedere un prestito per un libro se ne hai già richiesto uno o se non ne hai ancora restituito uno attivo. Questa è la scheda del prestito che hai richiesto e che è nello stato #{statoprestito(@mioprestito)}."
     else
       @prestito = Prestito.new(utente: utente_corrente, libro: @libro, stato: 0)
       if @prestito.save
