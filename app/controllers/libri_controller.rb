@@ -13,12 +13,10 @@ class LibriController < ApplicationController
       else
         utente = utente_corrente
       end
-      valore = 1
     else
       utente = utente_corrente
-      valore = 0
     end
-      @libro = Libro.new(parametri_creazione.merge(utente: utente, stato: valore))
+      @libro = Libro.new(parametri_creazione.merge(utente: utente, stato: 0))
     if @libro.save
       redirect_to @libro
       flash[:success] = "Grazie per aver deciso di condividere questo libro con la classe, #{utente_corrente.cognome.capitalize}"
