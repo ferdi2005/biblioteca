@@ -12,7 +12,7 @@
 <% end %>
   <br />
 <% if @libro.stato == 1 %>
-  <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large', data: {confirm: "Vuoi richiedere il libro #{@libro.titolo.capitalize} in prestito?" }%>
+  <%= link_to 'Richiedi in prestito', richiedi_path(:id => @libro.id), class: 'button is-primary is-large', data: {confirm: "Vuoi richiedere il libro #{@libro.titolo.capitalize.strip} in prestito?" }%>
 <% end %>
 <br />
 <br />
