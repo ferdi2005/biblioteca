@@ -8,15 +8,17 @@ class Libro < ApplicationRecord
   validates :pagine, presence: true
   validates :genere, presence: true
 
-  def self.search(search, genere = nil, pagine = nil)
-    if !genere.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND genere = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}")
-    elsif !pagine.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND pagine = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{pagine}")
-    elsif !genere.nil? && !pagine.nil?
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND genere = ? AND pagine = ? AND stato = 1", "%#{search}%", "%#{search}%", "#{genere}", "#{pagine}")
-    else
-      where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND stato = 1", "%#{search}%", "%#{search}%")
-    end
+  def self.search(search = '', genere = '', pagine = '')
+      a = where("1 = ?", '1')
+      if !search.blank?
+        a = a.where("(lower(titolo) LIKE lower(?) OR lower(autore) LIKE lower(?)) AND stato = 1", "%#{search.strip}%", "%#{search.strip}%")
+      end
+      if !pagine.blank?
+        a = a.where('pagine = ?', "#{pagine.strip}")
+      end
+      if !genere.blank?
+        a = a.where('genere = ?', "#{genere.strip}")
+      end
+      return a
   end
 end
