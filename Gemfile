@@ -31,6 +31,8 @@ gem 'nokogiri', '~> 1.8.5'
 # Use ActiveStorage variant
 gem 'mini_magick', '~> 4.8'
 
+gem 'turnout'
+
 gem 'pagy'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

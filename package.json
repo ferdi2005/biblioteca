@@ -1,5 +1,7 @@
 {
   "name": "biblioteca",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "jquery-modal": "^0.9.1"
+  }
 }

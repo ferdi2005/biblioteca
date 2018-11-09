@@ -2,3 +2,6 @@
 # yarn lockfile v1
 
 
+jquery-modal@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/jquery-modal/-/jquery-modal-0.9.1.tgz#f22f13f0efa5ea3f2afaeb7981c1e20114c9d2f2"
