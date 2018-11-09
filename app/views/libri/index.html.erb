@@ -1,89 +1,19 @@
-<h1 class="title is-2">Elenco dei libri</h1>
-<%= link_to 'Aggiungi nuovo libro', new_libro_path, class: 'button is-primary' %>
-<br />
-<br />
-<div class="is-horizontal">
-
-<form action="/" method="get">
-<div class="field has-addons">
-  <div class="control">
-     <input class="input" placeholder="Titolo o autore" name="cerca" id="cerca-libro-field"/>
-  </div>
-  <div class="control">
-    <input type="submit" class="button is-info" label="Cerca" onclick="empty()"/>
-  </div>
-</div>
-
-<b>Filtri per la ricerca</b> <p style="font-size: 8px;">Suggerimento: puoi anche evitare di specificare un titolo ed effettuare una ricerca per generi o pagine!</p>
-<div class="level level-left">
-<label for="select-generi" class="label">Genere</label>
-<br />
-<br />
-<div class="select" id="select-generi">
-<select name="genere">
-  <option></option>
-  <option>Storico</option>
-  <option>fantascienza</option>
-  <option>fantasy</option>
-  <option>avventura</option>
-  <option>horror</option>
-  <option>azione</option>
-  <option>thriller</option>
-  <option>giallo</option>
-  <option>rosa</option>
-  <option>umoristico</option>
-  <option>fiaba</option>
-  <option>biografia</option>
-  <option>diario</option>
-  <option>divulgativo-argomentativo</option>
-  <option>poesia</option>
-</select>
-</div>
-<br />
-<label for="select-pagine" class="label">Pagine</label>
-<br />
-<div class="select" id="select-pagine">
-<select name="pagine">
-  <option></option>
-  <option>0-100</option>
-  <option>100-200</option>
-  <option>200-300</option>
-  <option>300+</option>
-</select>
-</div>
-</div>
-</form>
-<!-- FINE FORM DI RICERCA -->
-
-<% if @libro.nil? %>
-<h1 class="title is-2 has-text-centered">La ricerca non ha trovato nessun libro</h1>
-<% else %>
-<table class="table">
-  <thead>
-    <tr>
-      <th><i class="fas fa-image"></i></th>
-      <th>Titolo</th>
-      <th>Autore</th>
-      <th>Gen. e pag.</th>
-      <th>Richiedi</th>
-    </th>
-  </thead>
-  <tbody>
-    <% @libro.each do |libro| %>
-      <tr>
-        <% if libro.immagine.attached? %>
-          <td><%= image_tag libro.immagine.variant(resize: '100') %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-        <td><%= link_to libro.titolo.capitalize, libro %></td>
-        <td><%= libro.autore.capitalize %></td>
-        <td><%= libro.genere %><br /><%= libro.pagine %></td>
-        <td><%= link_to 'Richiedi in prestito', richiedi_path(:id => libro.id), class: 'button is-primary is-medium', data: {confirm: "Vuoi richiedere il libro #{libro.titolo.capitalize.strip} in prestito?" }%> <%= link_to 'Scheda del libro', libro, class: 'button is-info is-small'%></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
-
-<%== pagy_nav_responsive_bulma(@pagy) if @pagy.pages > 1 %>
+<h1 class="titile is-1">Biblioteca sospesa a tempo indeterminato</h1>
+<p>Siamo spiacenti di informarti che la biblioteca è stata sospesa a tempo indeterminato. I libri che hai in possesso vanno restituiti.</p>
+<p>La nebbia agli irti colli
+Piovigginando sale,
+E sotto il maestrale
+urla e biancheggia il mar;
+Ma per le vie del borgo
+Dal ribollir dè tini
+Va l'aspro odor de i vini
+L'anime a rallegrar.
+Gira sù ceppi accesi
+Lo spiedo scoppiettando:
+Sta il cacciator fischiando
+Su l'uscio a rimirar
+Tra le rossastre nubi
+Stormi d'uccelli neri,
+Com'esuli pensieri,
+Nel vespero migrar.
+  -- Giosué Carducci</p>
