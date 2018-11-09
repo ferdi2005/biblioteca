@@ -1,6 +1,4 @@
 class LibriController < ApplicationController
-  before_action :qualcuno?
-  before_action :admin?, only: [:approva, :approvare]
   def new
     @libro = Libro.new
   end
