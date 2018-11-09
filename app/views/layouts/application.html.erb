@@ -13,18 +13,6 @@
 
   <!-- NAVBAR start -->
   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-    <div class="navbar-menu">
-      <%= link_to 'Libri', root_path, class: 'navbar-item' %>
-      <%= link_to 'Prestiti', prestiti_path, class: 'navbar-item' %>
-      <% if loggato? %>
-      <%= link_to 'Logout', logout_path, class: 'navbar-item', method: :delete %>
-      <% if utente_corrente.admin? %>
-        <%= link_to 'Registra', registrazione_path, class: 'navbar-item' %>
-        <%= link_to 'Da approvare', approvare_path, class: 'navbar-item' %>
-
-      <% end %>
-      <% end %>
-    </div>
     <div class="nabar-brand">
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
