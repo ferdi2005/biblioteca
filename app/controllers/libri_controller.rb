@@ -27,21 +27,6 @@ class LibriController < ApplicationController
   end
 
   def index
-    unless loggato?
-      redirect_to login_path
-    end
-    @ricerca = Libro.search(params[:cerca], params[:genere], params[:pagine])
-      if params[:disponibili].nil?
-        @pagy, @libro = pagy(@ricerca)
-      elsif params[:disponibili] == '1'
-        @librivalidi = []
-        @ricerca.each do |libro|
-          if !Prestito.where(libro: libro, stato: 1).or(Prestito.where(libro: libro, stato: 0))  .any?
-            @librivalidi.push(libro)
-          end
-        end
-        @pagy, @libro = pagy(Libro.where(id: @librivalidi.map(&:id)))
-      end
   end
 
   def show
