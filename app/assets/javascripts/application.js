@@ -15,6 +15,7 @@
 //= require pagy
 //= require jquery
 //= require turbolinks
+//= require tingle
 //= require_tree .
 
 window.addEventListener("turbolinks:load", Pagy.init);

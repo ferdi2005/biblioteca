@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require bulma
+ *= require tingle
  *= require_self
  */
 @import 'starbility-all.min.css';
