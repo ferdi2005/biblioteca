@@ -7,6 +7,8 @@ I libri possono trovarsi anche presso gli alunni, dato che tutti i passaggi veng
 Biblioteca di classe può essere installato direttamente (con il tasto qui sopra) oppure manualmente (è un'app Rails 5.2.1 con Ruby 2.5.1). Per il funzionamento dell'applicazione sono necessari le variabili `ENV['BASE']` ed `ENV['BASEPASSWORD']` che corrispondono praticamente all'username ("cognome") ed alla password dell'utente admin di base, che verrà creato al primo accesso e potrà creare altri admin. Per scelta, solo gli admin hanno la password, mentre gli utenti (per semplificare) possono usare il loro cognome.
 
 Come ogni applicazione Rails, ricordatevi sempre di fare un bel `bundle install` e `rails db:migrate`.
+## Richiedere un'istanza
+Se volete un'istanza per la vostra biblioteca di ogni tipo, vi prego di compilare il form al seguente link e sarò felice di fornirvela: https://ferdi2005.typeform.com/to/FRbRx8Df
 ## Come funziona
 Tutte le eventuali guide si troveranno nella [wiki Github del progetto](https://github.com/ferdi2005/biblioteca/wiki).
 ## Contribuire
