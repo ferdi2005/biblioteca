@@ -6,6 +6,7 @@ class Libro < ApplicationRecord
   validates :titolo, presence: true, uniqueness: true
   validates :autore, presence: true
   validates :pagine, presence: true
+  validates :anno, length: { is: 4 }
   validates :genere, presence: true
 
   def self.search(search = '', genere = '', pagine = '')

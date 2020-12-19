@@ -1,0 +1,8 @@
+<%= form_with(url: postisbn_path) do |f| %>
+  <div class="control">
+    <%= f.label :isbn, class: 'label' %>
+    <%= f.text_field :isbn, class: 'input' %>
+  </div>
+  
+  <%= f.submit 'Aggiungi libro', class: 'button is-primary' %>
+<% end %>

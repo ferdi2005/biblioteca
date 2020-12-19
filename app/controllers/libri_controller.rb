@@ -3,7 +3,34 @@ class LibriController < ApplicationController
   before_action :admin?, only: [:approva, :approvare]
 
   def new
-    @libro = Libro.new
+    if(params[:isbn].blank?)
+      @libro = Libro.new
+    else
+      @libro = Libro.new(titolo: params[:titolo], autore: params[:autore], editore: params[:editore], isbn: params[:isbn], anno: params[:anno].to_i)
+    end
+  end
+
+  def newisbn
+  end
+
+  def postisbn
+    url = "http://opac.sbn.it/opacmobilegw/search.json?isbn=" + params[:isbn]
+    data = HTTParty.get(url).to_h
+    # risposta di esempio 
+    # => {"numFound"=>1, "start"=>0, "rows"=>20, "briefRecords"=>[{"progressivoId"=>0, "codiceIdentificativo"=>"IT\\ICCU\\UBO\\4283020", "isbn"=>"978-88-08-52068-5", "autorePrincipale"=>"Carrada, Luisa", "copertina"=>"http://covers.librarything.com/devkey/fd11eebee79ccfcfe2f17d34a92e1011/small/isbn/9788808520685", "titolo"=>"Guida di stile : scrivere e riscrivere con consapevolezza / Luisa Carrada", "pubblicazione"=>"Bologna : Zanichelli, 2017", "livello"=>"Monografia", "tipo"=>"Testo a stampa", "numeri"=>[], "note"=>[], "sommarioAbstract"=>[], "nomi"=>[], "luogoNormalizzato"=>[], "localizzazioni"=>[], "citazioni"=>[]}], "facetRecords"=>[{"facetName"=>"level", "facetLabel"=>"Livello bibliografico", "facetValues"=>[["Monografia", "m", "1"]]}, {"facetName"=>"tiporec", "facetLabel"=>"Tipo di documento", "facetValues"=>[["Testo a stampa", "a", "1"]]}, {"facetName"=>"nomef", "facetLabel"=>"Autore", "facetValues"=>[["carrada, luisa", "carrada, luisa", "1"]]}, {"facetName"=>"soggettof", "facetLabel"=>"Soggetto", "facetValues"=>[["redazione di testi", "redazione di testi", "1"]]}, {"facetName"=>"luogof", "facetLabel"=>"Luogo di pubblicazione", "facetValues"=>[["bologna", "bologna", "1"]]}, {"facetName"=>"lingua", "facetLabel"=>"Lingua", "facetValues"=>[["italiano", "ita", "1"]]}, {"facetName"=>"paese", "facetLabel"=>"Paese", "facetValues"=>[["italia", "it", "1"]]}]}
+    if data["numFound"] > 0
+      book = data["briefRecords"].first
+      autore_from = book["autorePrincipale"].split(",")
+      autore = "#{autore_from[1].strip} #{autore_from[0].strip}"
+      pubblicazione = book["pubblicazione"].match(/([\w\s]*):\s*([\w*\s*\-*\s*]*)\s*,*\s*(\d*)/i)
+      editore = pubblicazione[2].strip
+      anno = pubblicazione[3].strip
+      redirect_to new_libro_path(titolo: book["titolo"].split("/")[0].strip, autore: autore, editore: editore, isbn: params[:isbn].gsub("-", "").strip, anno: anno)
+    else
+      flash[:warning] = "Nessun libro trovato sul Catalogo del Servizio Bibliotecario Nazionale (OPAC SBN) con questo ISBN"
+      redirect_to newisbn_path
+    end
+
   end
 
   def create
@@ -112,5 +139,5 @@ end
 
 private
   def parametri_creazione
-      params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine, :editore)
+      params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine, :editore, :anno)
   end

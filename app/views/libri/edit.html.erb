@@ -13,6 +13,10 @@
     <%= f.text_field :editore, class: 'input' %>
   </div>
   <div class="control">
+    <%= f.label :anno, class: 'label' %>
+    <%= f.number_field :anno, max: Date.today.year, min: 1600, class: 'input' %>
+  </div>
+  <div class="control">
     <%= f.label :isbn, class: 'label' %>
     <%= f.text_field :isbn, class: 'input' %>
   </div>
@@ -23,12 +27,12 @@
     <%= f.number_field :costo, step: 0.01, class: 'input' %>
   </div>
 
-  <% generi = ["Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"]  %>
+  <% generi = ["N/A", "Storico", "fantascienza", "fantasy", "avventura", "horror", "azione", "thriller", "giallo", "rosa", "umoristico", "fiaba", "biografia", "diario", "divulgativo-argomentativo", "poesia"]  %>
   <div class="select">
     <%= f.label :genere, class: 'label' %>
     <%= f.select :genere, generi %>
   </div>
-  <% pagine = ["0-100", "100-200", "200-300", "300+"]  %>
+  <% pagine = ["N/A", "0-100", "100-200", "200-300", "300+"]  %>
   <div class="select">
     <%= f.label :pagine, class: 'label' %>
     <%= f.select :pagine, pagine %>

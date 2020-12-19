@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_173641) do
+ActiveRecord::Schema.define(version: 2020_12_19_180934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_173641) do
     t.string "genere"
     t.string "pagine"
     t.string "editore"
+    t.integer "anno"
     t.index ["titolo"], name: "index_libri_on_titolo", unique: true
     t.index ["utente_id"], name: "index_libri_on_utente_id"
   end
