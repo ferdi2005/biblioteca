@@ -2,7 +2,7 @@ class SessioniController < ApplicationController
   def new
   end
   def create
-    if params[:utente][:cognome] == ENV['BASE'] && !Utente.find_by(cognome: ENV['BASE'].downcase)
+    if params[:utente][:cognome] == ENV['BASE'] && !Utente.find_by(cognome: ENV['BASE'].downcase) && params[:utente][:password] == ENV['BASEPASSWORD']
       @utente = Utente.create(cognome: ENV['BASE'].downcase, admin: true, password: ENV['BASEPASSWORD'], password_confirmation: ENV['BASEPASSWORD'])
       redirect_to login_path and return
       flash[:success] = 'Utente principale creato con successo. Da ora in poi potrai accedere con le credenziali impostate.'
