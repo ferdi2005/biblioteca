@@ -8,6 +8,7 @@ class LibriController < ApplicationController
 
   def create
     if utente_corrente.admin?
+      stato = 1
       findutente = Utente.find_by_cognome(params[:libro][:utente].downcase)
       if findutente
         utente = findutente
@@ -16,8 +17,9 @@ class LibriController < ApplicationController
       end
     else
       utente = utente_corrente
+      stato = 0
     end
-      @libro = Libro.new(parametri_creazione.merge(utente: utente, stato: 0))
+      @libro = Libro.new(parametri_creazione.merge(utente: utente, stato: stato))
     if @libro.save
       redirect_to @libro
       flash[:success] = "Grazie per aver deciso di condividere questo libro con la classe, #{utente_corrente.cognome.capitalize}"
