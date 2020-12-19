@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_211425) do
+ActiveRecord::Schema.define(version: 2020_12_19_173641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,14 @@ ActiveRecord::Schema.define(version: 2019_10_28_211425) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "libri", force: :cascade do |t|
@@ -49,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_211425) do
     t.integer "stato"
     t.string "genere"
     t.string "pagine"
+    t.string "editore"
     t.index ["titolo"], name: "index_libri_on_titolo", unique: true
     t.index ["utente_id"], name: "index_libri_on_utente_id"
   end
@@ -79,6 +87,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_211425) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "prestiti", "libri"
   add_foreign_key "prestiti", "utenti"
 end

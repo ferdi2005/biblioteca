@@ -36,7 +36,7 @@ class PrestitiController < ApplicationController
   def consegna
     prestito = Prestito.find(params[:id])
     if prestito.stato == 0
-      prestito.update_attributes(stato: 1, consegna: Date.today, scadenza: Date.today + 15.days)
+      prestito.update(stato: 1, consegna: Date.today, scadenza: Date.today + 15.days)
       redirect_to prestito
       flash[:success] = "La consegna del libro è stata registrata con successo, la data di scadenza è stata inserita."
     else
@@ -57,7 +57,7 @@ class PrestitiController < ApplicationController
     end
     @prestito = Prestito.find(session[:id_prestito])
     if @prestito.stato == 1
-      @prestito.update_attributes(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: Date.today)
+      @prestito.update(recensione: params[:prestito][:recensione], voto: params[:prestito][:ranking], note: params[:prestito][:note], stato: 2, restituzione: Date.today)
       p = Prestito.where(libro_id: @prestito.libro.id)
       @prestito.libro.update_attribute(:voto, p.average(:voto).to_i)
       redirect_to libri_path

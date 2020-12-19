@@ -1,6 +1,7 @@
 class LibriController < ApplicationController
   before_action :qualcuno?
   before_action :admin?, only: [:approva, :approvare]
+
   def new
     @libro = Libro.new
   end
@@ -96,7 +97,7 @@ class LibriController < ApplicationController
       else
         utente = @libro.utente
       end
-      if @libro.update_attributes(parametri_creazione.merge(utente: utente))
+      if @libro.update(parametri_creazione.merge(utente: utente))
         redirect_to @libro
         flash[:success] = "Informazioni del libro modificate con successo."
       else
@@ -109,5 +110,5 @@ end
 
 private
   def parametri_creazione
-      params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine)
+      params.require(:libro).permit(:titolo, :autore, :utente, :isbn, :trama, :foto, :costo, :immagine, :genere, :pagine, :editore)
   end
