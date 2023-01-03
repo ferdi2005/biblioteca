@@ -35,7 +35,7 @@ gem 'turnout'
 
 gem 'pagy'
 
-gem "httparty", "~> 0.18.1"
+gem "httparty", "~> 0.21.0"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
